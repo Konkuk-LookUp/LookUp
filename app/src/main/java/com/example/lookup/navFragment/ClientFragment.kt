@@ -46,7 +46,6 @@ class ClientFragment : Fragment() {
             }
 
         }
-    //TODO layout 초기화
 
     }
 

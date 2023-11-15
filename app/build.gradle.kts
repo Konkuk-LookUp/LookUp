@@ -1,5 +1,7 @@
 import org.jetbrains.kotlin.konan.properties.Properties
 
+
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -62,4 +64,23 @@ dependencies {
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.firebase:firebase-firestore-ktx")
     implementation("com.google.android.gms:play-services-auth:20.7.0")
+
+    //cameraX dependency
+    // CameraX core library using the camera2 implementation
+    val cameraxVersion = "1.1.0"
+    // The following line is optional, as the core library is included indirectly by camera-camera2
+    implementation("androidx.camera:camera-core:${cameraxVersion}")
+    implementation("androidx.camera:camera-camera2:${cameraxVersion}")
+    // If you want to additionally use the CameraX Lifecycle library
+    implementation("androidx.camera:camera-lifecycle:${cameraxVersion}")
+    // If you want to additionally use the CameraX VideoCapture library
+    implementation("androidx.camera:camera-video:${cameraxVersion}")
+    // If you want to additionally use the CameraX View class
+    implementation("androidx.camera:camera-view:${cameraxVersion}")
+    // If you want to additionally use the CameraX Extensions library
+    implementation("androidx.camera:camera-extensions:${cameraxVersion}")
+    //3d model
+    implementation ("io.reactivex.rxjava3:rxjava:3.1.6")
+    implementation ("io.reactivex.rxjava3:rxandroid:3.0.2")
+    implementation("com.squareup.okhttp3:okhttp:5.0.0-alpha.11")
 }
