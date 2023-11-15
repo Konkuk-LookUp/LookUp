@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.example.lookup.databinding.ActivityMainBinding
+import com.example.lookup.navFragment.ClientFragment
 import com.google.android.material.navigation.NavigationBarView
 
 class MainActivity : AppCompatActivity() , NavigationBarView.OnItemSelectedListener{
@@ -39,7 +40,7 @@ class MainActivity : AppCompatActivity() , NavigationBarView.OnItemSelectedListe
 //                supportFragmentManager.beginTransaction().replace(R.id.main_frm,).commit()
             }
             R.id.nav_client -> {
-//                supportFragmentManager.beginTransaction().replace(R.id.main_frm, ).commit()
+                supportFragmentManager.beginTransaction().replace(R.id.main_frm, ClientFragment()).commit()
             }
         }
         return true
