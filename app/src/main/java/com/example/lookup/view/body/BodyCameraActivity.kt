@@ -28,7 +28,7 @@ class BodyCameraActivity : AppCompatActivity() {
     lateinit var binding: ActivityBodyCameraBinding
     private var imageCapture: ImageCapture? = null
     private lateinit var cameraExecutor: ExecutorService
-    private lateinit var sound:MediaActionSound
+//    private lateinit var sound:MediaActionSound
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,7 +52,7 @@ class BodyCameraActivity : AppCompatActivity() {
     private fun takePhoto() {
         // Get a stable reference of the modifiable image capture use case
         val imageCapture = imageCapture ?: return
-        sound = MediaActionSound();
+//        sound = MediaActionSound();
 //        sound.play(SHUTTER_CLICK)
 
         // Create time stamped name and MediaStore entry.
@@ -136,7 +136,7 @@ class BodyCameraActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         cameraExecutor.shutdown()
-        sound.release()
+//        sound.release()
     }
 
     override fun onRequestPermissionsResult(

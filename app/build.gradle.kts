@@ -1,5 +1,7 @@
 import org.jetbrains.kotlin.konan.properties.Properties
 
+
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -77,4 +79,8 @@ dependencies {
     implementation("androidx.camera:camera-view:${cameraxVersion}")
     // If you want to additionally use the CameraX Extensions library
     implementation("androidx.camera:camera-extensions:${cameraxVersion}")
+    //3d model
+    implementation ("io.reactivex.rxjava3:rxjava:3.1.6")
+    implementation ("io.reactivex.rxjava3:rxandroid:3.0.2")
+    implementation("com.squareup.okhttp3:okhttp:5.0.0-alpha.11")
 }
