@@ -17,7 +17,10 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.lookup.R
+import com.example.lookup.data.SizeInfo
+import com.example.lookup.data.UserModel
 import com.example.lookup.databinding.ActivityBodyCameraBinding
+import com.example.lookup.module.pose.data.BodyPart
 import com.example.lookup.module.pose.data.Device
 import com.example.lookup.module.pose.data.KeyPoint
 import com.example.lookup.module.pose.data.Person
@@ -27,6 +30,7 @@ import com.example.lookup.module.pose.ml.MoveNet
 import com.example.lookup.module.pose.ml.MoveNetMultiPose
 import com.example.lookup.module.pose.ml.PoseNet
 import com.example.lookup.module.pose.ml.Type
+import com.example.lookup.util.SizeCalculator
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.concurrent.ExecutorService
@@ -81,9 +85,16 @@ class BodyCameraActivity : AppCompatActivity() {
 
                 override fun onDetectedInfo(person: Person) {
                     keyPoints = person.keyPoints
+                    Log.d(TAG, "score: "+person.score)
                     for (key in keyPoints!!) {
                         Log.d(TAG, "bodyPart : "+key.bodyPart.name+", locate : "+key.coordinate.toString())
                     }
+                    val pixelHeight = SizeCalculator.setPixelHeight(
+                        SizeCalculator.findKeyPoint(BodyPart.LEFT_EAR, keyPoints!!),
+                        SizeCalculator.findKeyPoint(BodyPart.LEFT_ANKLE, keyPoints!!)
+                    )
+                    var sizeInfo = SizeInfo(keyPoints!!,pixelHeight,180F)
+                    var userModel = UserModel(sizeInfo)
                 }
             })
     }
@@ -134,7 +145,7 @@ class BodyCameraActivity : AppCompatActivity() {
                         return
                     }
 
-                    val msg = "사진이 성공적으로 저장되었습니다: $savedUri"
+                    val msg = "사진이 성공적으로 저장되었습니다."
                     Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
                     Log.d(TAG, msg)
                     createPoseEstimator()
