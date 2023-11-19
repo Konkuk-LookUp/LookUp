@@ -1,4 +1,4 @@
-package com.example.lookup.module
+package com.example.lookup.module.model
 
 import android.opengl.Matrix
 

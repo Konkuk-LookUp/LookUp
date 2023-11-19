@@ -1,8 +1,8 @@
-package com.example.lookup.module.stl
+package com.example.lookup.module.model.stl
 
-import com.example.lookup.module.ArrayModel
-import com.example.lookup.module.util.Util
-import com.example.lookup.module.util.Util.calculateNormal
+import com.example.lookup.module.model.ArrayModel
+import com.example.lookup.module.model.util.Util
+import com.example.lookup.module.model.util.Util.calculateNormal
 import java.io.*
 import java.nio.ByteBuffer
 import java.nio.ByteOrder

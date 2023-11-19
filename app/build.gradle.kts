@@ -49,6 +49,9 @@ android {
     }
 }
 
+// Download tflite model
+apply(from="download.gradle")
+
 dependencies {
 
     implementation("androidx.core:core-ktx:1.7.0")
@@ -83,4 +86,9 @@ dependencies {
     implementation ("io.reactivex.rxjava3:rxjava:3.1.6")
     implementation ("io.reactivex.rxjava3:rxandroid:3.0.2")
     implementation("com.squareup.okhttp3:okhttp:5.0.0-alpha.11")
+
+    //image detection
+    implementation("org.tensorflow:tensorflow-lite:2.5.0")
+    implementation("org.tensorflow:tensorflow-lite-gpu:2.5.0")
+    implementation("org.tensorflow:tensorflow-lite-support:0.3.0")
 }

@@ -1,9 +1,9 @@
-package com.example.lookup.module.util
+package com.example.lookup.module.model.util
 
 import android.opengl.GLES20
 import android.util.Log
 import androidx.annotation.RawRes
-import com.example.lookup.module.ModelViewerApplication
+import com.example.lookup.module.model.ModelViewerApplication
 import java.io.Closeable
 import java.io.IOException
 
