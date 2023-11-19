@@ -26,7 +26,6 @@ import com.example.lookup.module.pose.ml.ModelType
 import com.example.lookup.module.pose.ml.MoveNet
 import com.example.lookup.module.pose.ml.MoveNetMultiPose
 import com.example.lookup.module.pose.ml.PoseNet
-import com.example.lookup.module.pose.ml.TrackerType
 import com.example.lookup.module.pose.ml.Type
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -122,16 +121,24 @@ class BodyCameraActivity : AppCompatActivity() {
             ContextCompat.getMainExecutor(this),
             object : ImageCapture.OnImageSavedCallback {
                 override fun onError(exc: ImageCaptureException) {
-                    Log.e(TAG, "사진 저장 실패: ${exc.message}", exc)
+                    val errorMsg = "사진 저장 실패: ${exc.message}"
+                    Toast.makeText(baseContext, errorMsg, Toast.LENGTH_SHORT).show()
+                    Log.e(TAG, errorMsg, exc)
                 }
 
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
-                    //output.savedUri -> 사진이 저장되는 위치
-                    val msg = "사진이 성공적으로 저장되었습니다."
+                    val savedUri = output.savedUri
+
+                    if (savedUri == null) {
+                        Log.e(TAG, "사진 저장 위치를 찾을 수 없습니다.")
+                        return
+                    }
+
+                    val msg = "사진이 성공적으로 저장되었습니다: $savedUri"
                     Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
                     Log.d(TAG, msg)
                     createPoseEstimator()
-                    imageSource?.processImageFromGallery(output.savedUri!!)
+                    imageSource?.processImageFromGallery(savedUri)
                 }
             }
         )
@@ -202,35 +209,6 @@ class BodyCameraActivity : AppCompatActivity() {
                 finish()
             }
         }
-    }
-
-    private fun changeModel(position: Int) {
-        if (modelPos == position) return
-        modelPos = position
-        createPoseEstimator()
-    }
-
-    // Change device (accelerator) type when app is running
-    private fun changeDevice(position: Int) {
-        val targetDevice = when (position) {
-            0 -> Device.CPU
-            1 -> Device.GPU
-            else -> Device.NNAPI
-        }
-        if (device == targetDevice) return
-        device = targetDevice
-        createPoseEstimator()
-    }
-
-    // Change tracker for Movenet MultiPose model
-    private fun changeTracker(position: Int) {
-        imageSource?.setTracker(
-            when (position) {
-                1 -> TrackerType.BOUNDING_BOX
-                2 -> TrackerType.KEYPOINTS
-                else -> TrackerType.OFF
-            }
-        )
     }
 
     private fun createPoseEstimator() {
