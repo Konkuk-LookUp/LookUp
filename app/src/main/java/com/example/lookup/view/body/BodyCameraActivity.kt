@@ -89,12 +89,7 @@ class BodyCameraActivity : AppCompatActivity() {
                     for (key in keyPoints!!) {
                         Log.d(TAG, "bodyPart : "+key.bodyPart.name+", locate : "+key.coordinate.toString())
                     }
-                    val pixelHeight = SizeCalculator.setPixelHeight(
-                        SizeCalculator.findKeyPoint(BodyPart.LEFT_EAR, keyPoints!!),
-                        SizeCalculator.findKeyPoint(BodyPart.LEFT_ANKLE, keyPoints!!)
-                    )
-                    var sizeInfo = SizeInfo(keyPoints!!,pixelHeight,180F)
-                    var userModel = UserModel(sizeInfo)
+                    var userModel = UserModel(180F,keyPoints!!)
                 }
             })
     }
