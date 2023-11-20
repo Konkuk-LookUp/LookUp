@@ -23,14 +23,23 @@
         android:theme="@style/Theme.LookUp"
         tools:targetApi="33">
         <activity
-            android:name=".view.body.GenerateModelActivity"
+            android:name=".view.body.input.CameraInputActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.body.MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.body.input.AddBodyActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.body.input.GenerateModelActivity"
             android:exported="false" />
         <activity
             android:name=".view.body.BodyCameraActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
         <activity
             android:name=".LoginActivity"
             android:exported="true">

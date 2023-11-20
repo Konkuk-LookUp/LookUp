@@ -30,6 +30,7 @@ import com.example.lookup.module.model.obj.ObjModel
 import com.example.lookup.module.model.ply.PlyModel
 import com.example.lookup.module.model.stl.StlModel
 import com.example.lookup.module.model.util.Util
+import com.example.lookup.view.body.input.AddBodyActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
@@ -108,7 +109,8 @@ class BodyFragment : Fragment() {
 
     private fun initBtn() {
         binding.startCameraBtn.setOnClickListener {
-            startCamera()
+//            startCamera()
+            addModel()
         }
         binding.sampleModelBtn.setOnClickListener {
 //            val intent = Intent(activity,BodyActivity::class.java)
@@ -116,7 +118,10 @@ class BodyFragment : Fragment() {
             loadSampleModel()
         }
     }
-
+    private fun addModel(){
+        val intent = Intent(activity, AddBodyActivity::class.java)
+        startActivity(intent)
+    }
     private fun startCamera(){
         val intent = Intent(activity,BodyCameraActivity::class.java)
         startActivity(intent)

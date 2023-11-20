@@ -1,4 +1,4 @@
-package com.example.lookup.view.body
+package com.example.lookup.view.body.input
 
 import android.content.Intent
 import android.os.Bundle
@@ -26,12 +26,12 @@ class AddBodyActivity : AppCompatActivity() {
     }
 
     private fun startText() {
-        val intent = Intent(this,GenerateModelActivity::class.java)
+        val intent = Intent(this, GenerateModelActivity::class.java)
         startActivity(intent)
     }
 
     private fun startCamera(){
-        val intent = Intent(this,BodyCameraActivity::class.java)
+        val intent = Intent(this, CameraInputActivity::class.java)
         startActivity(intent)
     }
 }

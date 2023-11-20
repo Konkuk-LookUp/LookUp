@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".view.body.GenerateModelActivity"
+    tools:context=".view.body.input.GenerateModelActivity"
     android:padding="20dp"
     android:gravity="center"
     >
@@ -31,6 +31,7 @@
             android:layout_height="40dp"
             android:background="@drawable/frame_edittext"
             android:ems="10"
+            android:padding="4dp"
             />
     </LinearLayout>
 
@@ -56,6 +57,7 @@
             android:layout_height="40dp"
             android:background="@drawable/frame_edittext"
             android:ems="10"
+            android:padding="4dp"
             />
     </LinearLayout>
     <LinearLayout
@@ -80,6 +82,7 @@
             android:layout_height="40dp"
             android:background="@drawable/frame_edittext"
             android:ems="10"
+            android:padding="4dp"
             />
     </LinearLayout>
     <LinearLayout
@@ -103,6 +106,7 @@
             android:layout_height="40dp"
             android:background="@drawable/frame_edittext"
             android:ems="10"
+            android:padding="4dp"
             />
     </LinearLayout>
     <LinearLayout
@@ -126,6 +130,7 @@
             android:layout_height="40dp"
             android:background="@drawable/frame_edittext"
             android:ems="10"
+            android:padding="4dp"
             />
     </LinearLayout>
     <LinearLayout
@@ -149,15 +154,16 @@
             android:layout_height="40dp"
             android:background="@drawable/frame_edittext"
             android:ems="10"
+            android:padding="4dp"
             />
     </LinearLayout>
     <Button
         android:id="@+id/generate_btn"
         android:layout_gravity="center"
-        android:layout_width="300dp"
+        android:layout_width="320dp"
         android:layout_height="wrap_content"
         android:text="생성하기"
-        android:background="@drawable/frame_edittext"
+        android:background="@drawable/generate_btn"
         />
 
 

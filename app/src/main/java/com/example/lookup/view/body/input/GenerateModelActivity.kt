@@ -1,4 +1,4 @@
-package com.example.lookup.view.body
+package com.example.lookup.view.body.input
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -23,6 +23,7 @@ class GenerateModelActivity : AppCompatActivity() {
         var weight = "70"
         var modelData:ModelData
         binding.apply {
+            //TODO 입력 값에 대한 예외처리 구현
             generateBtn.setOnClickListener {
                 if(editName.text.isNotEmpty()) {
                     name = editName.text.toString()
