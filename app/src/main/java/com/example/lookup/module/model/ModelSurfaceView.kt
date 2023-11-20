@@ -1,10 +1,10 @@
-package com.example.lookup.module
+package com.example.lookup.module.model
 
 import android.content.Context
 import android.graphics.PointF
 import android.opengl.GLSurfaceView
 import android.view.MotionEvent
-import com.example.lookup.module.util.Util.pxToDp
+import com.example.lookup.module.model.util.Util.pxToDp
 import kotlin.math.sqrt
 
 /*

@@ -1,9 +1,9 @@
-package com.example.lookup.module
+package com.example.lookup.module.model
 
 import android.opengl.GLES20
 import android.opengl.Matrix
 import com.example.lookup.R
-import com.example.lookup.module.util.Util.compileProgram
+import com.example.lookup.module.model.util.Util.compileProgram
 import java.nio.FloatBuffer
 
 /*
