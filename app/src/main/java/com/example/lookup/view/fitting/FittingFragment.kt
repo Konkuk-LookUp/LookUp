@@ -24,6 +24,7 @@ import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import com.example.lookup.R
 import com.example.lookup.databinding.FragmentFittingBinding
+import com.example.lookup.httpConnection.HttpFunc
 import com.example.lookup.module.model.Model
 import com.example.lookup.module.model.ModelSurfaceView
 import com.example.lookup.module.model.ModelViewerApplication
@@ -51,6 +52,8 @@ class FittingFragment : Fragment() {
     private val disposables = CompositeDisposable()
     private lateinit var contextWrapper:ContextWrapper
     private lateinit var contextThemeWrapper: ContextThemeWrapper
+    val serverUrl = " http://ec2-3-36-70-109.ap-northeast-2.compute.amazonaws.com:3000/get-obj/obj파일이름"
+    val httpManager = HttpFunc(serverUrl)
 
     private val openDocumentLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         if (it.resultCode == AppCompatActivity.RESULT_OK && it.data?.data != null) {
@@ -110,6 +113,22 @@ class FittingFragment : Fragment() {
         ).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             binding.spinner.adapter = adapter
+        }
+        binding.apply{
+            //TODO 옷 클릭시 기능 구현
+            cloth1.setOnClickListener {
+                serverUrl // url 수정해서 접근?
+//                httpManager.GET()
+            }
+            cloth2.setOnClickListener {
+
+            }
+            cloth3.setOnClickListener {
+
+            }
+            cloth4.setOnClickListener {
+
+            }
         }
     }
 
