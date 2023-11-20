@@ -8,7 +8,7 @@
 
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="31" />
+        android:maxSdkVersion="28" />
 
     <application
         android:allowBackup="true"
@@ -17,7 +17,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:name=".module.ModelViewerApplication"
+        android:name=".module.model.ModelViewerApplication"
         android:supportsRtl="true"
         android:theme="@style/Theme.LookUp"
         tools:targetApi="33">
@@ -26,10 +26,6 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="false" >
-        </activity>
-        <activity
-            android:name=".view.body.BodyActivity"
             android:exported="false" >
         </activity>
         <activity

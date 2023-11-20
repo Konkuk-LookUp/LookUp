@@ -1,4 +1,4 @@
-package com.example.lookup.module
+package com.example.lookup.module.model
 
 import android.opengl.GLES20
 import java.nio.IntBuffer

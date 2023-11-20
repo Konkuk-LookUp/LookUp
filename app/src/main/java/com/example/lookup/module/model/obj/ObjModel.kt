@@ -1,7 +1,7 @@
-package com.example.lookup.module.obj
+package com.example.lookup.module.model.obj
 
-import com.example.lookup.module.IndexedModel
-import com.example.lookup.module.util.Util.calculateNormal
+import com.example.lookup.module.model.IndexedModel
+import com.example.lookup.module.model.util.Util.calculateNormal
 import java.io.*
 import java.nio.ByteBuffer
 import java.nio.ByteOrder

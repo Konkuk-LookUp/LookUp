@@ -1,11 +1,11 @@
-package com.example.lookup.module.ply
+package com.example.lookup.module.model.ply
 
 import android.opengl.GLES20
 import android.opengl.Matrix
 import com.example.lookup.R
-import com.example.lookup.module.IndexedModel
-import com.example.lookup.module.Light
-import com.example.lookup.module.util.Util
+import com.example.lookup.module.model.IndexedModel
+import com.example.lookup.module.model.Light
+import com.example.lookup.module.model.util.Util
 import java.io.*
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
