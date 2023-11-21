@@ -53,7 +53,7 @@ class FittingFragment : Fragment() {
     private lateinit var contextWrapper:ContextWrapper
     private lateinit var contextThemeWrapper: ContextThemeWrapper
     val serverUrl = " http://ec2-3-36-70-109.ap-northeast-2.compute.amazonaws.com:3000/get-obj/obj파일이름"
-    val httpManager = HttpFunc(serverUrl)
+    val httpManager = HttpFunc(this.requireContext())
 
     private val openDocumentLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         if (it.resultCode == AppCompatActivity.RESULT_OK && it.data?.data != null) {

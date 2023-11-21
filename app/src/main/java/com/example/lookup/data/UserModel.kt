@@ -3,7 +3,6 @@ package com.example.lookup.data
 import com.example.lookup.module.pose.data.BodyPart
 import com.example.lookup.module.pose.data.KeyPoint
 import com.example.lookup.util.SizeCalculator
-import kotlin.reflect.full.memberProperties
 
 class UserModel() {
     lateinit var sizeInfo: SizeInfo

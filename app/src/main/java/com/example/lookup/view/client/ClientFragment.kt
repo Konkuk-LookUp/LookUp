@@ -40,10 +40,10 @@ class ClientFragment : Fragment() {
                     Toast.makeText(context,"회원 탈퇴 성공", Toast.LENGTH_SHORT).show()
                     this.activity?.finishAffinity()
                 }
-//                else{
-//                    Toast.makeText(context,"다시 로그인 후 이용해주세요.", Toast.LENGTH_SHORT).show()
-//                    auth.signOut()
-//                }
+                else{
+                    Toast.makeText(context,"다시 로그인 후 이용해주세요.", Toast.LENGTH_SHORT).show()
+                    auth.signOut()
+                }
             }
 
         }
