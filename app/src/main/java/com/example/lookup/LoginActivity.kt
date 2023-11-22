@@ -36,7 +36,8 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        val account = GoogleSignIn.getLastSignedInAccount(this)
+//        val account = GoogleSignIn.getLastSignedInAccount(this)
+        val account = FirebaseAuth.getInstance().currentUser
 //        updateUI(account) ->  ret val null 아니면 메인으로 넘어가야함
         if(account != null){
             val intent = Intent(this@LoginActivity,MainActivity::class.java)

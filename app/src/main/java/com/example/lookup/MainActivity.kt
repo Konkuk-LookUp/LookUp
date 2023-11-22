@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.example.lookup.databinding.ActivityMainBinding
+
 import com.example.lookup.view.body.BodyFragment
 import com.example.lookup.view.client.ClientFragment
 import com.example.lookup.view.closet.ClosetFragment
 import com.example.lookup.view.fitting.FittingFragment
+
 import com.google.android.material.navigation.NavigationBarView
 
 class MainActivity : AppCompatActivity() , NavigationBarView.OnItemSelectedListener{

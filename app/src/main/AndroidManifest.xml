@@ -3,31 +3,43 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-feature android:name="android.hardware.camera.any" />
-    <uses-permission android:name="android.permission.CAMERA" />
 
+    <uses-feature android:name="android.hardware.camera.any" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="28" />
 
     <application
+        android:name=".module.model.ModelViewerApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:name=".module.model.ModelViewerApplication"
         android:supportsRtl="true"
         android:theme="@style/Theme.LookUp"
         tools:targetApi="33">
+        <activity
+            android:name=".view.body.input.CameraInputActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.body.MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.body.input.AddBodyActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.body.input.GenerateModelActivity"
+            android:exported="false" />
         <activity
             android:name=".view.body.BodyCameraActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="false" >
-        </activity>
+            android:exported="false" />
         <activity
             android:name=".LoginActivity"
             android:exported="true">
