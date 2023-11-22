@@ -82,7 +82,7 @@ class ModelRenderer(private val model: Model?) : GLSurfaceView.Renderer {
 
         // By default, rotate the model towards the user a bit
         rotateAngleX = -15.0f
-        rotateAngleY = 15.0f
+//        rotateAngleY = 15.0f
         updateViewMatrix()
     }
 

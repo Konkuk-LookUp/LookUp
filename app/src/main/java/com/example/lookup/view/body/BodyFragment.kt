@@ -31,6 +31,7 @@ import com.example.lookup.module.model.obj.ObjModel
 import com.example.lookup.module.model.ply.PlyModel
 import com.example.lookup.module.model.stl.StlModel
 import com.example.lookup.module.model.util.Util
+import com.example.lookup.util.PreferenceManager
 import com.example.lookup.view.body.input.AddBodyActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -86,12 +87,14 @@ class BodyFragment : Fragment() {
             insets.consumeSystemWindowInsets()
         }
 
-        sampleModels = contextThemeWrapper.assets.list("")!!.filter { it.endsWith(".stl") }
+        sampleModels = contextThemeWrapper.assets.list("")!!.filter { it.endsWith(".stl")}
 
-        if (ModelViewerApplication.currentModel == null) {
-            val initUri = Uri.parse("http://ec2-3-36-70-109.ap-northeast-2.compute.amazonaws.com:3000/get-obj/WAITAO.obj")
-            beginLoadModel(initUri)
-        }
+    }
+
+    private fun loadModelByFilename(filename:String) {
+        val initUri =
+            Uri.parse("http://ec2-3-36-70-109.ap-northeast-2.compute.amazonaws.com:3000/get-obj/$filename")
+        beginLoadModel(initUri)
     }
 
     private fun initBtn() {
@@ -110,8 +113,20 @@ class BodyFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         createNewModelView(ModelViewerApplication.currentModel)
+
+        val filename = PreferenceManager.getString(requireContext(), "filename")
+        Log.d(TAG, "filename: $filename")
+
         if (ModelViewerApplication.currentModel != null) {
+            Log.d(TAG, "title: ${ModelViewerApplication.currentModel!!.title}")
             activity?.title = ModelViewerApplication.currentModel!!.title
+            if(ModelViewerApplication.currentModel!!.title == filename){
+                return
+            }
+        }
+
+        if (!filename.isNullOrBlank()) {
+            loadModelByFilename(filename!!)
         }
     }
 
@@ -226,5 +241,9 @@ class BodyFragment : Fragment() {
         } catch (e: IOException) {
             e.printStackTrace()
         }
+    }
+
+    companion object{
+        const val TAG = "BodyFragment"
     }
 }

@@ -17,17 +17,17 @@ class CameraInputActivity : AppCompatActivity() {
     }
 
     private fun initLayout() {
-        var height = 180.0
-        var weight = 70.0
+        var height = 180f
+        var weight = 70f
         binding.apply {
             //TODO 입력 값에 대한 예외처리 구현
             generateBtn.setOnClickListener {
                 try {
                     if (editHeight.text.isNotEmpty()) {
-                        height = editHeight.text.toString().toDouble()
+                        height = editHeight.text.toString().toFloat()
                     }
                     if (editWegiht.text.isNotEmpty()) {
-                        weight = editWegiht.text.toString().toDouble()
+                        weight = editWegiht.text.toString().toFloat()
                     }
                     startCamera(height, weight)
                 }catch (e:NumberFormatException){
@@ -40,10 +40,10 @@ class CameraInputActivity : AppCompatActivity() {
         }
 
     }
-    private fun startCamera(height:Double, weight:Double){
+    private fun startCamera(height:Float, weight:Float){
         val intent = Intent(this, BodyCameraActivity::class.java)
-        intent.putExtra("키",height)
-        intent.putExtra("몸무게",weight)
+        intent.putExtra("height",height)
+        intent.putExtra("weight",weight)
         startActivity(intent)
     }
 }

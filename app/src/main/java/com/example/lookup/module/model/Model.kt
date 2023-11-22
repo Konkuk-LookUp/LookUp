@@ -25,7 +25,6 @@ abstract class Model {
     protected var centerMassZ = 0f
 
     var floorOffset = 0f
-        protected set
 
     var title = ""
 
@@ -84,7 +83,7 @@ abstract class Model {
         }
     }
 
-    protected fun getBoundScale(boundSize: Float): Float {
+    fun getBoundScale(boundSize: Float): Float {
         val scaleX = (maxX - minX) / boundSize
         val scaleY = (maxY - minY) / boundSize
         val scaleZ = (maxZ - minZ) / boundSize
