@@ -8,10 +8,17 @@ class UserModel() {
     lateinit var sizeInfo: SizeInfo
 
     constructor(userHeight:Float, keyPoints:List<KeyPoint>):this(){
+        setSizeInfo(keyPoints, userHeight)
+    }
+
+    private fun setSizeInfo(
+        keyPoints: List<KeyPoint>,
+        userHeight: Float
+    ) {
         val pixelHeight = SizeCalculator.setPixelHeight(
             SizeCalculator.findKeyPoint(BodyPart.LEFT_EAR, keyPoints!!),
             SizeCalculator.findKeyPoint(BodyPart.LEFT_ANKLE, keyPoints!!)
         )
-        sizeInfo = SizeInfo(keyPoints!!,pixelHeight,userHeight)
+        sizeInfo = SizeInfo(keyPoints!!, pixelHeight, userHeight)
     }
 }

@@ -9,6 +9,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
@@ -41,6 +42,7 @@ import okhttp3.Request
 import java.io.ByteArrayInputStream
 import java.io.IOException
 import java.io.InputStream
+import java.net.URL
 import java.util.Locale
 
 
@@ -52,22 +54,6 @@ class BodyFragment : Fragment() {
     private val disposables = CompositeDisposable()
     private lateinit var contextWrapper:ContextWrapper
     private lateinit var contextThemeWrapper: ContextThemeWrapper
-
-    private val openDocumentLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-        if (it.resultCode == AppCompatActivity.RESULT_OK && it.data?.data != null) {
-            val uri = it.data?.data
-            contextWrapper.grantUriPermission(contextWrapper.packageName, uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            beginLoadModel(uri!!)
-        }
-    }
-
-    private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-        if (isGranted) {
-            beginOpenModel()
-        } else {
-            Toast.makeText(context, R.string.read_permission_failed, Toast.LENGTH_SHORT).show()
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -102,28 +88,22 @@ class BodyFragment : Fragment() {
 
         sampleModels = contextThemeWrapper.assets.list("")!!.filter { it.endsWith(".stl") }
 
-        if (activity?.intent?.data != null && savedInstanceState == null) {
-            beginLoadModel(activity?.intent?.data!!)
+        if (ModelViewerApplication.currentModel == null) {
+            val initUri = Uri.parse("http://ec2-3-36-70-109.ap-northeast-2.compute.amazonaws.com:3000/get-obj/WAITAO.obj")
+            beginLoadModel(initUri)
         }
     }
 
     private fun initBtn() {
         binding.startCameraBtn.setOnClickListener {
-//            startCamera()
             addModel()
         }
         binding.sampleModelBtn.setOnClickListener {
-//            val intent = Intent(activity,BodyActivity::class.java)
-//            startActivity(intent)
             loadSampleModel()
         }
     }
     private fun addModel(){
         val intent = Intent(activity, AddBodyActivity::class.java)
-        startActivity(intent)
-    }
-    private fun startCamera(){
-        val intent = Intent(activity,BodyCameraActivity::class.java)
         startActivity(intent)
     }
 
@@ -148,20 +128,6 @@ class BodyFragment : Fragment() {
     override fun onDestroy() {
         disposables.clear()
         super.onDestroy()
-    }
-
-    private fun checkReadPermissionThenOpen() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Build.VERSION.SDK_INT < Build.VERSION_CODES.Q &&
-            (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)) {
-            requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
-        } else {
-            beginOpenModel()
-        }
-    }
-
-    private fun beginOpenModel() {
-        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).setType("*/*")
-        openDocumentLauncher.launch(intent)
     }
 
     private fun createNewModelView(model: Model?) {
@@ -260,13 +226,5 @@ class BodyFragment : Fragment() {
         } catch (e: IOException) {
             e.printStackTrace()
         }
-    }
-
-    private fun showAboutDialog() {
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle(R.string.app_name)
-            .setMessage(R.string.about_text)
-            .setPositiveButton(android.R.string.ok, null)
-            .show()
     }
 }

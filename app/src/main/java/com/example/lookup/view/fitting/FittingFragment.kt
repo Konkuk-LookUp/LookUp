@@ -52,24 +52,8 @@ class FittingFragment : Fragment() {
     private val disposables = CompositeDisposable()
     private lateinit var contextWrapper:ContextWrapper
     private lateinit var contextThemeWrapper: ContextThemeWrapper
-    val serverUrl = " http://ec2-3-36-70-109.ap-northeast-2.compute.amazonaws.com:3000/get-obj/obj파일이름"
-    val httpManager = HttpFunc(this.requireContext())
-
-    private val openDocumentLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-        if (it.resultCode == AppCompatActivity.RESULT_OK && it.data?.data != null) {
-            val uri = it.data?.data
-            contextWrapper.grantUriPermission(contextWrapper.packageName, uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            beginLoadModel(uri!!)
-        }
-    }
-
-    private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-        if (isGranted) {
-            beginOpenModel()
-        } else {
-            Toast.makeText(context, R.string.read_permission_failed, Toast.LENGTH_SHORT).show()
-        }
-    }
+    private lateinit var httpManager:HttpFunc
+    private val serverUrl = " http://ec2-3-36-70-109.ap-northeast-2.compute.amazonaws.com:3000/get-obj/obj파일이름"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -83,7 +67,7 @@ class FittingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         contextWrapper = ContextWrapper(context)
         contextThemeWrapper = ContextThemeWrapper(context, R.style.Theme_LookUp)
-
+        httpManager = HttpFunc(requireContext())
 
         binding.progressBar.visibility = View.GONE
         initLayout()
@@ -99,10 +83,6 @@ class FittingFragment : Fragment() {
         }
 
         sampleModels = contextThemeWrapper.assets.list("")!!.filter { it.endsWith(".stl") }
-
-        if (activity?.intent?.data != null && savedInstanceState == null) {
-            beginLoadModel(activity?.intent?.data!!)
-        }
     }
 
     private fun initLayout() {
@@ -153,20 +133,6 @@ class FittingFragment : Fragment() {
     override fun onDestroy() {
         disposables.clear()
         super.onDestroy()
-    }
-
-    private fun checkReadPermissionThenOpen() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Build.VERSION.SDK_INT < Build.VERSION_CODES.Q &&
-            (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)) {
-            requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
-        } else {
-            beginOpenModel()
-        }
-    }
-
-    private fun beginOpenModel() {
-        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).setType("*/*")
-        openDocumentLauncher.launch(intent)
     }
 
     private fun createNewModelView(model: Model?) {
