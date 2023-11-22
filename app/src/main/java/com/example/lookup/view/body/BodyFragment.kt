@@ -93,7 +93,7 @@ class BodyFragment : Fragment() {
 
     private fun loadModelByFilename(filename:String) {
         val initUri =
-            Uri.parse("http://ec2-3-36-70-109.ap-northeast-2.compute.amazonaws.com:3000/get-obj/$filename")
+            Uri.parse(SERVER_URL+filename)
         beginLoadModel(initUri)
     }
 
@@ -245,5 +245,6 @@ class BodyFragment : Fragment() {
 
     companion object{
         const val TAG = "BodyFragment"
+        const val SERVER_URL = "http://ec2-3-36-70-109.ap-northeast-2.compute.amazonaws.com:3000/get-obj/"
     }
 }

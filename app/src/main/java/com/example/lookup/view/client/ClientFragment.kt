@@ -45,7 +45,6 @@ class ClientFragment : Fragment() {
                     auth.signOut()
                 }
             }
-
         }
     }
 

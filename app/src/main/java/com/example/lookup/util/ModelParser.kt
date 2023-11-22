@@ -8,6 +8,7 @@ object ModelParser {
         Pair("sample_model","sample_model.stl"),
         Pair("men_wear_shoes","men_wear_shoes.obj"),
         Pair("default_model","default_model.obj"),
+        Pair("female","female.obj"),
     )
 
     fun getFileName(userModel: UserModel): String {
@@ -17,10 +18,13 @@ object ModelParser {
         val size = userModel.getSize()
 
         if (height >= 180f) {
-            return files["sample_model"]!!
+            return files["men_wear_shoes"]!!
         }
         if (height >= 170f) {
             return files["default_model"]!!
+        }
+        if (height >= 160f) {
+            return files["female"]!!
         }
         return "WAITAO.obj"
     }

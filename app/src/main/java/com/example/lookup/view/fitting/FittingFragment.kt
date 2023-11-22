@@ -52,8 +52,6 @@ class FittingFragment : Fragment() {
     private val disposables = CompositeDisposable()
     private lateinit var contextWrapper:ContextWrapper
     private lateinit var contextThemeWrapper: ContextThemeWrapper
-    private lateinit var httpManager:HttpFunc
-    private val serverUrl = " http://ec2-3-36-70-109.ap-northeast-2.compute.amazonaws.com:3000/get-obj/obj파일이름"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,7 +65,6 @@ class FittingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         contextWrapper = ContextWrapper(context)
         contextThemeWrapper = ContextThemeWrapper(context, R.style.Theme_LookUp)
-        httpManager = HttpFunc(requireContext())
 
         binding.progressBar.visibility = View.GONE
         initLayout()
@@ -97,7 +94,6 @@ class FittingFragment : Fragment() {
         binding.apply{
             //TODO 옷 클릭시 기능 구현
             cloth1.setOnClickListener {
-                serverUrl // url 수정해서 접근?
 //                httpManager.GET()
             }
             cloth2.setOnClickListener {
