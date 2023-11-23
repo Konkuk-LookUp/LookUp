@@ -44,24 +44,6 @@ class FittingFragment : Fragment() {
     private val disposables = CompositeDisposable()
     private lateinit var contextWrapper:ContextWrapper
     private lateinit var contextThemeWrapper: ContextThemeWrapper
-    val serverUrl = " http://ec2-3-36-70-109.ap-northeast-2.compute.amazonaws.com:3000/get-obj/obj파일이름"
-    val httpManager = HttpFunc(this.requireContext())
-
-    private val openDocumentLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-        if (it.resultCode == AppCompatActivity.RESULT_OK && it.data?.data != null) {
-            val uri = it.data?.data
-            contextWrapper.grantUriPermission(contextWrapper.packageName, uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            beginLoadModel(uri!!)
-        }
-    }
-
-    private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-        if (isGranted) {
-            beginOpenModel()
-        } else {
-            Toast.makeText(context, R.string.read_permission_failed, Toast.LENGTH_SHORT).show()
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -75,6 +57,7 @@ class FittingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         contextWrapper = ContextWrapper(context)
         contextThemeWrapper = ContextThemeWrapper(context, R.style.Theme_LookUp)
+
         binding.progressBar.visibility = View.GONE
         initLayout()
 
@@ -87,10 +70,8 @@ class FittingFragment : Fragment() {
             }
             insets.consumeSystemWindowInsets()
         }
+
         sampleModels = contextThemeWrapper.assets.list("")!!.filter { it.endsWith(".stl") }
-        if (activity?.intent?.data != null && savedInstanceState == null) {
-            beginLoadModel(activity?.intent?.data!!)
-        }
     }
 
     private fun initLayout() {
@@ -105,7 +86,6 @@ class FittingFragment : Fragment() {
         binding.apply{
             //TODO 옷 클릭시 기능 구현
             cloth1.setOnClickListener {
-                serverUrl // url 수정해서 접근?
 //                httpManager.GET()
             }
             cloth2.setOnClickListener {
@@ -143,20 +123,6 @@ class FittingFragment : Fragment() {
         super.onDestroy()
     }
 
-    private fun checkReadPermissionThenOpen() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Build.VERSION.SDK_INT < Build.VERSION_CODES.Q &&
-            (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)) {
-            requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
-        } else {
-            beginOpenModel()
-        }
-    }
-
-    private fun beginOpenModel() {
-        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).setType("*/*")
-        openDocumentLauncher.launch(intent)
-    }
-
     private fun createNewModelView(model: Model?) {
         if (modelView != null) {
             binding.bodyFragment.removeView(modelView)
@@ -167,63 +133,64 @@ class FittingFragment : Fragment() {
 
     private fun beginLoadModel(uri: Uri) {
         binding.progressBar.visibility = View.VISIBLE
+
         disposables.add(
             Observable.fromCallable {
-            var model: Model? = null
-            var stream: InputStream? = null
-            try {
-                val cr = contextWrapper.applicationContext.contentResolver
-                val fileName = getFileName(cr, uri)
-                stream = if ("http" == uri.scheme || "https" == uri.scheme) {
-                    val client = OkHttpClient()
-                    val request: Request = Request.Builder().url(uri.toString()).build()
-                    val response = client.newCall(request).execute()
+                var model: Model? = null
+                var stream: InputStream? = null
+                try {
+                    val cr = contextWrapper.applicationContext.contentResolver
+                    val fileName = getFileName(cr, uri)
+                    stream = if ("http" == uri.scheme || "https" == uri.scheme) {
+                        val client = OkHttpClient()
+                        val request: Request = Request.Builder().url(uri.toString()).build()
+                        val response = client.newCall(request).execute()
 
-                    // TODO: figure out how to NOT need to read the whole file at once.
-                    ByteArrayInputStream(response.body!!.bytes())
-                } else {
-                    cr.openInputStream(uri)
-                }
-                if (stream != null) {
-                    if (!fileName.isNullOrEmpty()) {
-                        model = when {
-                            fileName.lowercase(Locale.ROOT).endsWith(".stl") -> {
-                                StlModel(stream)
-                            }
-                            fileName.lowercase(Locale.ROOT).endsWith(".obj") -> {
-                                ObjModel(stream)
-                            }
-                            fileName.lowercase(Locale.ROOT).endsWith(".ply") -> {
-                                PlyModel(stream)
-                            }
-                            else -> {
-                                // assume it's STL.
-                                StlModel(stream)
-                            }
-                        }
-                        model.title = fileName
+                        // TODO: figure out how to NOT need to read the whole file at once.
+                        ByteArrayInputStream(response.body!!.bytes())
                     } else {
-                        // assume it's STL.
-                        // TODO: autodetect file type by reading contents?
-                        model = StlModel(stream)
+                        cr.openInputStream(uri)
                     }
+                    if (stream != null) {
+                        if (!fileName.isNullOrEmpty()) {
+                            model = when {
+                                fileName.lowercase(Locale.ROOT).endsWith(".stl") -> {
+                                    StlModel(stream)
+                                }
+                                fileName.lowercase(Locale.ROOT).endsWith(".obj") -> {
+                                    ObjModel(stream)
+                                }
+                                fileName.lowercase(Locale.ROOT).endsWith(".ply") -> {
+                                    PlyModel(stream)
+                                }
+                                else -> {
+                                    // assume it's STL.
+                                    StlModel(stream)
+                                }
+                            }
+                            model.title = fileName
+                        } else {
+                            // assume it's STL.
+                            // TODO: autodetect file type by reading contents?
+                            model = StlModel(stream)
+                        }
+                    }
+                    ModelViewerApplication.currentModel = model
+                    model!!
+                } finally {
+                    Util.closeSilently(stream)
                 }
-                ModelViewerApplication.currentModel = model
-                model!!
-            } finally {
-                Util.closeSilently(stream)
-            }
-        }.subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doAfterTerminate {
-                binding.progressBar.visibility = View.GONE
-            }
-            .subscribe({
-                setCurrentModel(it)
-            }, {
-                it.printStackTrace()
-                Toast.makeText(contextWrapper.applicationContext, getString(R.string.open_model_error, it.message), Toast.LENGTH_SHORT).show()
-            }))
+            }.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doAfterTerminate {
+                    binding.progressBar.visibility = View.GONE
+                }
+                .subscribe({
+                    setCurrentModel(it)
+                }, {
+                    it.printStackTrace()
+                    Toast.makeText(contextWrapper.applicationContext, getString(R.string.open_model_error, it.message), Toast.LENGTH_SHORT).show()
+                }))
     }
 
     private fun getFileName(cr: ContentResolver, uri: Uri): String? {
