@@ -25,7 +25,7 @@ object ModelParser {
         if (height >= 180f) {
             return defaultFiles["men-180-70"]!!
         }
-        if (height >= 180f) {
+        if (height >= 170f) {
             return defaultFiles["men"]!!
         }
         if (height >= 160f) {
