@@ -13,7 +13,7 @@ object ModelParser {
     )
 
     private val fittingFiles = mapOf(
-        Pair("men${MODEL_DELIMITER}shoes","men-shoes.stl")
+        Pair("men-180-70${MODEL_DELIMITER}shoes","men-180-70-shoes.stl")
     )
 
     fun getFilename(userModel: UserModel): String {
@@ -38,7 +38,7 @@ object ModelParser {
         val filename = "${userModelFilename.split(".")[0]}$MODEL_DELIMITER$clothName"
         Log.d(
             "ModelParser",
-            "getFittingModelFilename() called with: userModelFilename = ${userModelFilename.split(".")[0]}, clothName = $clothName"
+            "getFittingModelFilename() called with: $filename and ${fittingFiles[filename]}"
         )
         return fittingFiles[filename]
     }
