@@ -190,7 +190,7 @@ class BodyFragment : Fragment() {
                                 StlModel(stream)
                             }
                         }
-                        model.title = fileName
+                        model.title = fileName.split("/")[1].trim()
                     } else {
                         // assume it's STL.
                         // TODO: autodetect file type by reading contents?
