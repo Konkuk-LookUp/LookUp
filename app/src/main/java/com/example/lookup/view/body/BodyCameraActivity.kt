@@ -106,7 +106,7 @@ class BodyCameraActivity : AppCompatActivity() {
         val weight = intent.getFloatExtra("weight", 70f)
 
         var userModel = UserModel(height, weight, keyPoints!!)
-        val fileName = ModelParser.getFileName(userModel)
+        val fileName = ModelParser.getFilename(userModel)
         PreferenceManager.setString(this,"filename",fileName)
 
         val intent = Intent(this, MainActivity::class.java)

@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context=".view.fitting.FittingFragment">
     <FrameLayout
-        android:id="@+id/bodyFragment"
+        android:id="@+id/fittingFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"

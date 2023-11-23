@@ -5,6 +5,7 @@ import android.content.ContextWrapper
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
@@ -24,7 +25,9 @@ import com.example.lookup.module.model.obj.ObjModel
 import com.example.lookup.module.model.ply.PlyModel
 import com.example.lookup.module.model.stl.StlModel
 import com.example.lookup.module.model.util.Util
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.example.lookup.util.ModelParser.getFittingModelFilename
+import com.example.lookup.util.PreferenceManager
+import com.example.lookup.view.body.BodyFragment
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -32,14 +35,11 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.io.ByteArrayInputStream
-import java.io.IOException
 import java.io.InputStream
 import java.util.Locale
 
 class FittingFragment : Fragment() {
     lateinit var binding: FragmentFittingBinding
-    private lateinit var sampleModels: List<String>
-    private var sampleModelIndex = 0
     private var modelView: ModelSurfaceView? = null
     private val disposables = CompositeDisposable()
     private lateinit var contextWrapper:ContextWrapper
@@ -61,7 +61,7 @@ class FittingFragment : Fragment() {
         binding.progressBar.visibility = View.GONE
         initLayout()
 
-        ViewCompat.setOnApplyWindowInsetsListener(binding.bodyFragment) { _, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(binding.fittingFragment) { _, insets ->
             (binding.progressBar.layoutParams as FrameLayout.LayoutParams).apply {
                 topMargin = insets.systemWindowInsetTop
                 bottomMargin = insets.systemWindowInsetBottom
@@ -70,8 +70,6 @@ class FittingFragment : Fragment() {
             }
             insets.consumeSystemWindowInsets()
         }
-
-        sampleModels = contextThemeWrapper.assets.list("")!!.filter { it.endsWith(".stl") }
     }
 
     private fun initLayout() {
@@ -86,26 +84,61 @@ class FittingFragment : Fragment() {
         binding.apply{
             //TODO 옷 클릭시 기능 구현
             cloth1.setOnClickListener {
-//                httpManager.GET()
+                setFittingModel(SHOES)
             }
             cloth2.setOnClickListener {
-
+                setFittingModel(SHOES)
             }
             cloth3.setOnClickListener {
-
+                setFittingModel(SHOES)
             }
             cloth4.setOnClickListener {
-
+                setFittingModel(SHOES)
             }
         }
+    }
+
+    private fun setFittingModel(clothName: String) {
+        val userModelName = PreferenceManager.getString(requireContext(), USER_MODEL_FILENAME)
+        val fittingModelFilename = getFittingModelFilename(userModelName!!, clothName)
+
+
+        if (!fittingModelFilename.isNullOrBlank()) {
+            PreferenceManager.setString(requireContext(),FITTING_MODEL_FILENAME,fittingModelFilename)
+            renderFittingModel()
+            return
+        }
+        Toast.makeText(requireContext(), "존재하지 않는 옷입니다.", Toast.LENGTH_SHORT).show()
     }
 
     override fun onStart() {
         super.onStart()
         createNewModelView(ModelViewerApplication.currentModel)
-        if (ModelViewerApplication.currentModel != null) {
-            activity?.title = ModelViewerApplication.currentModel!!.title
+    }
+
+    private fun renderFittingModel() {
+        createNewModelView(ModelViewerApplication.currentFittingModel)
+
+        val filenameFitting = PreferenceManager.getString(requireContext(), FITTING_MODEL_FILENAME)
+        Log.d(TAG, "filename_fitting: $filenameFitting")
+
+        if (ModelViewerApplication.currentFittingModel != null) {
+            Log.d(TAG, "title: ${ModelViewerApplication.currentFittingModel!!.title}")
+            activity?.title = ModelViewerApplication.currentFittingModel!!.title
+            if (ModelViewerApplication.currentFittingModel!!.title == filenameFitting) {
+                return
+            }
         }
+
+        if (!filenameFitting.isNullOrBlank()) {
+            loadModelByFilename(filenameFitting!!)
+        }
+    }
+
+    private fun loadModelByFilename(filename:String) {
+        val initUri =
+            Uri.parse(SERVER_URL +filename)
+        beginLoadModel(initUri)
     }
 
     override fun onPause() {
@@ -125,10 +158,10 @@ class FittingFragment : Fragment() {
 
     private fun createNewModelView(model: Model?) {
         if (modelView != null) {
-            binding.bodyFragment.removeView(modelView)
+            binding.fittingFragment.removeView(modelView)
         }
         modelView = ModelSurfaceView(requireContext(), model)
-        binding.bodyFragment.addView(modelView, 0)
+        binding.fittingFragment.addView(modelView, 0)
     }
 
     private fun beginLoadModel(uri: Uri) {
@@ -168,14 +201,14 @@ class FittingFragment : Fragment() {
                                     StlModel(stream)
                                 }
                             }
-                            model.title = fileName
+                            model.title = fileName.split("/")[1].trim()
                         } else {
                             // assume it's STL.
                             // TODO: autodetect file type by reading contents?
                             model = StlModel(stream)
                         }
                     }
-                    ModelViewerApplication.currentModel = model
+                    ModelViewerApplication.currentFittingModel = model
                     model!!
                 } finally {
                     Util.closeSilently(stream)
@@ -212,23 +245,11 @@ class FittingFragment : Fragment() {
         binding.progressBar.visibility = View.GONE
     }
 
-    private fun loadSampleModel() {
-        try {
-            val stream = contextThemeWrapper.assets.open(sampleModels[sampleModelIndex++ % sampleModels.size])
-            setCurrentModel(StlModel(stream))
-            stream.close()
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
+    companion object{
+        const val TAG = "FittingFragment"
+        const val SERVER_URL = "http://ec2-3-36-70-109.ap-northeast-2.compute.amazonaws.com:3000/get-obj/fitting%2F"
+        const val USER_MODEL_FILENAME = "filename"
+        const val FITTING_MODEL_FILENAME = "fitting_filename"
+        const val SHOES = "shoes"
     }
-
-    private fun showAboutDialog() {
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle(R.string.app_name)
-            .setMessage(R.string.about_text)
-            .setPositiveButton(android.R.string.ok, null)
-            .show()
-    }
-
-
 }

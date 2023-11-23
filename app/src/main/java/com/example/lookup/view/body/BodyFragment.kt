@@ -86,6 +86,7 @@ class BodyFragment : Fragment() {
     private fun loadModelByFilename(filename:String) {
         val initUri =
             Uri.parse(SERVER_URL+filename)
+        Log.d(TAG, "loadModelByFilename() called with: initUri = $initUri")
         beginLoadModel(initUri)
     }
 
@@ -186,7 +187,7 @@ class BodyFragment : Fragment() {
                                 StlModel(stream)
                             }
                         }
-                        model.title = fileName
+                        model.title = fileName.split("/")[1].trim()
                     } else {
                         // assume it's STL.
                         // TODO: autodetect file type by reading contents?
@@ -242,6 +243,6 @@ class BodyFragment : Fragment() {
 
     companion object{
         const val TAG = "BodyFragment"
-        const val SERVER_URL = "http://ec2-3-36-70-109.ap-northeast-2.compute.amazonaws.com:3000/get-obj/"
+        const val SERVER_URL = "http://ec2-3-36-70-109.ap-northeast-2.compute.amazonaws.com:3000/get-obj/default%2F"
     }
 }
