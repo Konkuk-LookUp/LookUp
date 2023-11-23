@@ -86,7 +86,7 @@ class GenerateModelActivity : AppCompatActivity() {
                 }
             }
 
-            
+
         }
     }
     private fun generateModel(userModel:UserModel){
