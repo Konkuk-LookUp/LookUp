@@ -1,31 +1,41 @@
 package com.example.lookup.util
 
+import android.util.Log
 import com.example.lookup.data.UserModel
 
 object ModelParser {
+    private const val MODEL_DELIMITER = "/"
 
-    private val files = mapOf(
-        Pair("sample_model","sample_model.stl"),
-        Pair("men_wear_shoes","men_wear_shoes.obj"),
-        Pair("default_model","default_model.obj"),
+    private val defaultFiles = mapOf(
+        Pair("men","men.obj"),
         Pair("female","female.obj"),
     )
 
-    fun getFileName(userModel: UserModel): String {
+    private val fittingFiles = mapOf(
+        Pair("men${MODEL_DELIMITER}shoes","men-shoes.stl")
+    )
+
+    fun getFilename(userModel: UserModel): String {
 
         val height = userModel.getHeight()
         val weight = userModel.getWeight()
         val size = userModel.getSize()
 
         if (height >= 180f) {
-            return files["men_wear_shoes"]!!
-        }
-        if (height >= 170f) {
-            return files["default_model"]!!
+            return defaultFiles["men"]!!
         }
         if (height >= 160f) {
-            return files["female"]!!
+            return defaultFiles["female"]!!
         }
         return "WAITAO.obj"
+    }
+
+    fun getFittingModelFilename(userModelFilename: String, clothName: String): String? {
+        val filename = "${userModelFilename.split(".")[0]}$MODEL_DELIMITER$clothName"
+        Log.d(
+            "ModelParser",
+            "getFittingModelFilename() called with: userModelFilename = ${userModelFilename.split(".")[0]}, clothName = $clothName"
+        )
+        return fittingFiles[filename]
     }
 }
