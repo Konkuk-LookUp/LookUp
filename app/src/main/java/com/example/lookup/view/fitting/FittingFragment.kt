@@ -1,12 +1,8 @@
 package com.example.lookup.view.fitting
 
-import android.Manifest
 import android.content.ContentResolver
 import android.content.ContextWrapper
-import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.ContextThemeWrapper
@@ -16,15 +12,11 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.FrameLayout
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContentResolverCompat
-import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import com.example.lookup.R
 import com.example.lookup.databinding.FragmentFittingBinding
-import com.example.lookup.httpConnection.HttpFunc
 import com.example.lookup.module.model.Model
 import com.example.lookup.module.model.ModelSurfaceView
 import com.example.lookup.module.model.ModelViewerApplication
