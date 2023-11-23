@@ -13,7 +13,7 @@ import com.example.lookup.util.PreferenceManager
 
 class GenerateModelActivity : AppCompatActivity() {
     lateinit var binding:ActivityGenerateModelBinding
-    
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityGenerateModelBinding.inflate(layoutInflater)
@@ -86,10 +86,7 @@ class GenerateModelActivity : AppCompatActivity() {
                 }
             }
 
-            //TODO 모델 생성 정보 서버에 넘기기
-            //TODO 파일로 저장 or string stream?
-            //TODO 생성하기를 통해 intent 값을 넘김
-
+            
         }
     }
     private fun generateModel(userModel:UserModel){
