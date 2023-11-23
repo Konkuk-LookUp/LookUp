@@ -41,9 +41,9 @@ class GenerateModelActivity : AppCompatActivity() {
                     check = false
                     editHeight.text.clear()
                     editWegiht.text.clear()
-                    editChest.text.clear()
-                    editNeck.text.clear()
                     editShoulder.text.clear()
+                    editArm.text.clear()
+                    editWegiht.text.clear()
                     Toast.makeText(this@GenerateModelActivity, "유효한 숫자를 입력하세요.", Toast.LENGTH_SHORT).show()
                 }
                 if(check) {

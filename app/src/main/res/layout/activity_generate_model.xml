@@ -69,54 +69,6 @@
         <TextView
             android:layout_width="65dp"
             android:layout_height="30dp"
-            android:text="가슴둘레"
-            android:paddingLeft="10dp"
-            />
-        <Space
-            android:layout_width="10dp"
-            android:layout_height="wrap_content"/>
-        <EditText
-            android:id="@+id/edit_chest"
-            android:layout_width="280dp"
-            android:layout_height="40dp"
-            android:background="@drawable/frame_edittext"
-            android:ems="10"
-            android:padding="4dp"
-            />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="15dp"
-        >
-        <TextView
-            android:layout_width="65dp"
-            android:layout_height="30dp"
-            android:text="목둘레"
-            android:paddingLeft="10dp"
-            />
-        <Space
-            android:layout_width="10dp"
-            android:layout_height="wrap_content"/>
-        <EditText
-            android:id="@+id/edit_neck"
-            android:layout_width="280dp"
-            android:layout_height="40dp"
-            android:background="@drawable/frame_edittext"
-            android:ems="10"
-            android:padding="4dp"
-            />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="15dp"
-        >
-        <TextView
-            android:layout_width="65dp"
-            android:layout_height="30dp"
             android:text="어깨너비"
             android:paddingLeft="10dp"
             />
@@ -125,6 +77,78 @@
             android:layout_height="wrap_content"/>
         <EditText
             android:id="@+id/edit_shoulder"
+            android:layout_width="280dp"
+            android:layout_height="40dp"
+            android:background="@drawable/frame_edittext"
+            android:ems="10"
+            android:padding="4dp"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="15dp"
+        >
+        <TextView
+            android:layout_width="65dp"
+            android:layout_height="30dp"
+            android:text="팔길이"
+            android:paddingLeft="10dp"
+            />
+        <Space
+            android:layout_width="10dp"
+            android:layout_height="wrap_content"/>
+        <EditText
+            android:id="@+id/edit_arm"
+            android:layout_width="280dp"
+            android:layout_height="40dp"
+            android:background="@drawable/frame_edittext"
+            android:ems="10"
+            android:padding="4dp"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="15dp"
+        >
+        <TextView
+            android:layout_width="65dp"
+            android:layout_height="30dp"
+            android:text="다리길이"
+            android:paddingLeft="10dp"
+            />
+        <Space
+            android:layout_width="10dp"
+            android:layout_height="wrap_content"/>
+        <EditText
+            android:id="@+id/edit_leg"
+            android:layout_width="280dp"
+            android:layout_height="40dp"
+            android:background="@drawable/frame_edittext"
+            android:ems="10"
+            android:padding="4dp"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="15dp"
+        >
+        <TextView
+            android:layout_width="65dp"
+            android:layout_height="30dp"
+            android:text="허리둘레"
+            android:paddingLeft="10dp"
+            />
+        <Space
+            android:layout_width="10dp"
+            android:layout_height="wrap_content"/>
+        <EditText
+            android:id="@+id/edit_waist"
             android:layout_width="280dp"
             android:layout_height="40dp"
             android:background="@drawable/frame_edittext"
