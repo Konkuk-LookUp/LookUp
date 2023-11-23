@@ -1,24 +1,19 @@
 package com.example.lookup.view.body
 
-import android.Manifest
 import android.content.ContentResolver
 import android.content.ContextWrapper
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContentResolverCompat
-import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import com.example.lookup.R
@@ -30,8 +25,8 @@ import com.example.lookup.module.model.obj.ObjModel
 import com.example.lookup.module.model.ply.PlyModel
 import com.example.lookup.module.model.stl.StlModel
 import com.example.lookup.module.model.util.Util
+import com.example.lookup.util.PreferenceManager
 import com.example.lookup.view.body.input.AddBodyActivity
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -52,22 +47,6 @@ class BodyFragment : Fragment() {
     private val disposables = CompositeDisposable()
     private lateinit var contextWrapper:ContextWrapper
     private lateinit var contextThemeWrapper: ContextThemeWrapper
-
-    private val openDocumentLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-        if (it.resultCode == AppCompatActivity.RESULT_OK && it.data?.data != null) {
-            val uri = it.data?.data
-            contextWrapper.grantUriPermission(contextWrapper.packageName, uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            beginLoadModel(uri!!)
-        }
-    }
-
-    private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-        if (isGranted) {
-            beginOpenModel()
-        } else {
-            Toast.makeText(context, R.string.read_permission_failed, Toast.LENGTH_SHORT).show()
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -100,11 +79,14 @@ class BodyFragment : Fragment() {
             insets.consumeSystemWindowInsets()
         }
 
-        sampleModels = contextThemeWrapper.assets.list("")!!.filter { it.endsWith(".stl") }
+        sampleModels = contextThemeWrapper.assets.list("")!!.filter { it.endsWith(".stl")}
 
-        if (activity?.intent?.data != null && savedInstanceState == null) {
-            beginLoadModel(activity?.intent?.data!!)
-        }
+    }
+
+    private fun loadModelByFilename(filename:String) {
+        val initUri =
+            Uri.parse(SERVER_URL+filename)
+        beginLoadModel(initUri)
     }
 
     private fun initBtn() {
@@ -113,8 +95,6 @@ class BodyFragment : Fragment() {
             addModel()
         }
         binding.sampleModelBtn.setOnClickListener {
-//            val intent = Intent(activity,BodyActivity::class.java)
-//            startActivity(intent)
             loadSampleModel()
         }
     }
@@ -130,8 +110,20 @@ class BodyFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         createNewModelView(ModelViewerApplication.currentModel)
+
+        val filename = PreferenceManager.getString(requireContext(), "filename")
+        Log.d(TAG, "filename: $filename")
+
         if (ModelViewerApplication.currentModel != null) {
+            Log.d(TAG, "title: ${ModelViewerApplication.currentModel!!.title}")
             activity?.title = ModelViewerApplication.currentModel!!.title
+            if(ModelViewerApplication.currentModel!!.title == filename){
+                return
+            }
+        }
+
+        if (!filename.isNullOrBlank()) {
+            loadModelByFilename(filename!!)
         }
     }
 
@@ -148,20 +140,6 @@ class BodyFragment : Fragment() {
     override fun onDestroy() {
         disposables.clear()
         super.onDestroy()
-    }
-
-    private fun checkReadPermissionThenOpen() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Build.VERSION.SDK_INT < Build.VERSION_CODES.Q &&
-            (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)) {
-            requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
-        } else {
-            beginOpenModel()
-        }
-    }
-
-    private fun beginOpenModel() {
-        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).setType("*/*")
-        openDocumentLauncher.launch(intent)
     }
 
     private fun createNewModelView(model: Model?) {
@@ -262,11 +240,8 @@ class BodyFragment : Fragment() {
         }
     }
 
-    private fun showAboutDialog() {
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle(R.string.app_name)
-            .setMessage(R.string.about_text)
-            .setPositiveButton(android.R.string.ok, null)
-            .show()
+    companion object{
+        const val TAG = "BodyFragment"
+        const val SERVER_URL = "http://ec2-3-36-70-109.ap-northeast-2.compute.amazonaws.com:3000/get-obj/"
     }
 }

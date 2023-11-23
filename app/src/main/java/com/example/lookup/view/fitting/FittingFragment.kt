@@ -83,8 +83,6 @@ class FittingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         contextWrapper = ContextWrapper(context)
         contextThemeWrapper = ContextThemeWrapper(context, R.style.Theme_LookUp)
-
-
         binding.progressBar.visibility = View.GONE
         initLayout()
 
@@ -97,9 +95,7 @@ class FittingFragment : Fragment() {
             }
             insets.consumeSystemWindowInsets()
         }
-
         sampleModels = contextThemeWrapper.assets.list("")!!.filter { it.endsWith(".stl") }
-
         if (activity?.intent?.data != null && savedInstanceState == null) {
             beginLoadModel(activity?.intent?.data!!)
         }
@@ -179,7 +175,6 @@ class FittingFragment : Fragment() {
 
     private fun beginLoadModel(uri: Uri) {
         binding.progressBar.visibility = View.VISIBLE
-
         disposables.add(
             Observable.fromCallable {
             var model: Model? = null

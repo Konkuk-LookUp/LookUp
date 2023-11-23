@@ -60,6 +60,7 @@
             android:padding="4dp"
             />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -156,6 +157,8 @@
             android:padding="4dp"
             />
     </LinearLayout>
+=======
+>>>>>>> 22ffa28342069a28f17f823ca9f010f59d06411c
     <Button
         android:id="@+id/generate_btn"
         android:layout_gravity="center"

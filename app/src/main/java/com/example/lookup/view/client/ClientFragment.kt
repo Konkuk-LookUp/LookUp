@@ -45,7 +45,6 @@ class ClientFragment : Fragment() {
                     auth.signOut()
                 }
             }
-
         }
     }
 
@@ -53,5 +52,5 @@ class ClientFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initLayout()
     }
-
 }
+
