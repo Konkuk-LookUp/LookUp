@@ -30,6 +30,7 @@ class ModelViewerApplication : Application() {
         // relaunching the main or VR activities.
         // TODO: handle this a bit better.
         var currentModel: Model? = null
+
         var currentClothModel: Model? = null
     }
 }
