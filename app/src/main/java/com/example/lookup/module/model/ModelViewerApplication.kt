@@ -25,11 +25,11 @@ class ModelViewerApplication : Application() {
 
     companion object {
         lateinit var instance: ModelViewerApplication
-
         // Store the current model globally, so that we don't have to re-decode it upon
         // relaunching the main or VR activities.
         // TODO: handle this a bit better.
         var currentModel: Model? = null
         var currentFittingModel: Model? = null
+        var currentClothModel: Model? = null
     }
 }
