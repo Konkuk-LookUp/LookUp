@@ -8,7 +8,7 @@ object ModelParser {
 
     private val defaultFiles = mapOf(
         Pair("men","men.obj"),
-        Pair("men-180-75","men-180-75.obj"),
+        Pair("men-180-70","men-180-70.obj"),
         Pair("female","female.obj"),
     )
 
@@ -23,7 +23,7 @@ object ModelParser {
         val size = userModel.getSize()
 
         if (height >= 180f) {
-            return defaultFiles["men-180-75"]!!
+            return defaultFiles["men-180-70"]!!
         }
         if (height >= 180f) {
             return defaultFiles["men"]!!
