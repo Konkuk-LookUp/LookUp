@@ -119,6 +119,7 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
     }
+
     private fun signOut() {
         mGoogleSignInClient.signOut()
             .addOnCompleteListener(this) {

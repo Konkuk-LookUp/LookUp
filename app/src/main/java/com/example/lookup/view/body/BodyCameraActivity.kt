@@ -2,6 +2,7 @@ package com.example.lookup.view.body
 
 import android.Manifest
 import android.content.ContentValues
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -16,6 +17,7 @@ import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.example.lookup.MainActivity
 import com.example.lookup.R
 import com.example.lookup.data.SizeInfo
 import com.example.lookup.data.UserModel
@@ -30,6 +32,8 @@ import com.example.lookup.module.pose.ml.MoveNet
 import com.example.lookup.module.pose.ml.MoveNetMultiPose
 import com.example.lookup.module.pose.ml.PoseNet
 import com.example.lookup.module.pose.ml.Type
+import com.example.lookup.util.ModelParser
+import com.example.lookup.util.PreferenceManager
 import com.example.lookup.util.SizeCalculator
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -85,13 +89,28 @@ class BodyCameraActivity : AppCompatActivity() {
 
                 override fun onDetectedInfo(person: Person) {
                     keyPoints = person.keyPoints
-                    Log.d(TAG, "score: "+person.score)
+                    Log.d(TAG, "score: " + person.score)
                     for (key in keyPoints!!) {
-                        Log.d(TAG, "bodyPart : "+key.bodyPart.name+", locate : "+key.coordinate.toString())
+                        Log.d(
+                            TAG,
+                            "bodyPart : " + key.bodyPart.name + ", locate : " + key.coordinate.toString()
+                        )
                     }
-                    var userModel = UserModel(180F,keyPoints!!)
+                    setUserModel()
                 }
             })
+    }
+
+    private fun setUserModel() {
+        val height = intent.getFloatExtra("height", 180f)
+        val weight = intent.getFloatExtra("weight", 70f)
+
+        var userModel = UserModel(height, weight, keyPoints!!)
+        val fileName = ModelParser.getFileName(userModel)
+        PreferenceManager.setString(this,"filename",fileName)
+
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
     }
 
     private fun takePhoto() {

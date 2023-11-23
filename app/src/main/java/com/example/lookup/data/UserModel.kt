@@ -5,13 +5,36 @@ import com.example.lookup.module.pose.data.KeyPoint
 import com.example.lookup.util.SizeCalculator
 
 class UserModel() {
-    lateinit var sizeInfo: SizeInfo
+    private lateinit var sizeInfo: SizeInfo
+    private var height = 180f
+    private var weight = 70f
 
-    constructor(userHeight:Float, keyPoints:List<KeyPoint>):this(){
+    constructor(height:Float, weight:Float, keyPoints:List<KeyPoint>):this(){
+        this.height = height
+        this.weight = weight
+        setSizeInfo(keyPoints, height)
+    }
+
+    private fun setSizeInfo(
+        keyPoints: List<KeyPoint>,
+        height: Float
+    ) {
         val pixelHeight = SizeCalculator.setPixelHeight(
             SizeCalculator.findKeyPoint(BodyPart.LEFT_EAR, keyPoints!!),
             SizeCalculator.findKeyPoint(BodyPart.LEFT_ANKLE, keyPoints!!)
         )
-        sizeInfo = SizeInfo(keyPoints!!,pixelHeight,userHeight)
+        sizeInfo = SizeInfo(keyPoints!!, pixelHeight, height)
+    }
+
+    fun getHeight():Float{
+        return height
+    }
+
+    fun getWeight():Float{
+        return height
+    }
+
+    fun getSize():SizeInfo{
+        return sizeInfo
     }
 }
