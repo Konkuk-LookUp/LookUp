@@ -157,7 +157,8 @@
             android:padding="4dp"
             />
     </LinearLayout>
-     <Button
+
+    <Button
         android:id="@+id/generate_btn"
         android:layout_gravity="center"
         android:layout_width="320dp"
