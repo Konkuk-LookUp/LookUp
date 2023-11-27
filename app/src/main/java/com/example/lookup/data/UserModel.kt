@@ -9,6 +9,13 @@ class UserModel() {
     private var height = 180f
     private var weight = 70f
 
+    // 생성자 하나 만들었습니다.
+    constructor(height:Float, weight:Float,info:SizeInfo):this(){
+        this.height = height
+        this.weight = weight
+        this.sizeInfo = info
+    }
+
     constructor(height:Float, weight:Float, keyPoints:List<KeyPoint>):this(){
         this.height = height
         this.weight = weight

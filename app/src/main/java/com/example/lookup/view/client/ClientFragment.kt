@@ -7,7 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.example.lookup.R
 import com.example.lookup.databinding.FragmentClientBinding
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -36,6 +39,7 @@ class ClientFragment : Fragment() {
             val user = FirebaseAuth.getInstance().currentUser
             user!!.delete()!!.addOnCompleteListener { task ->
                 if (task.isSuccessful) {
+                    revokeAccess()
                     Log.d("sing_out", "User account deleted.")
                     Toast.makeText(context,"회원 탈퇴 성공", Toast.LENGTH_SHORT).show()
                     this.activity?.finishAffinity()
@@ -52,5 +56,18 @@ class ClientFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initLayout()
     }
+    private fun revokeAccess(){
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+        // Build a GoogleSignInClient with the options specified by gso.
+        val mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
+        mGoogleSignInClient.revokeAccess().addOnCompleteListener {
+            Log.d("google_signout","회원탈퇴 성공")
+        }
+        auth.signOut()
 
+    }
 }
+

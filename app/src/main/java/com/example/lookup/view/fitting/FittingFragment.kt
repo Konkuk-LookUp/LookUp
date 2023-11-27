@@ -169,61 +169,61 @@ class FittingFragment : Fragment() {
 
         disposables.add(
             Observable.fromCallable {
-            var model: Model? = null
-            var stream: InputStream? = null
-            try {
-                val cr = contextWrapper.applicationContext.contentResolver
-                val fileName = getFileName(cr, uri)
-                stream = if ("http" == uri.scheme || "https" == uri.scheme) {
-                    val client = OkHttpClient()
-                    val request: Request = Request.Builder().url(uri.toString()).build()
-                    val response = client.newCall(request).execute()
+                var model: Model? = null
+                var stream: InputStream? = null
+                try {
+                    val cr = contextWrapper.applicationContext.contentResolver
+                    val fileName = getFileName(cr, uri)
+                    stream = if ("http" == uri.scheme || "https" == uri.scheme) {
+                        val client = OkHttpClient()
+                        val request: Request = Request.Builder().url(uri.toString()).build()
+                        val response = client.newCall(request).execute()
 
-                    // TODO: figure out how to NOT need to read the whole file at once.
-                    ByteArrayInputStream(response.body!!.bytes())
-                } else {
-                    cr.openInputStream(uri)
-                }
-                if (stream != null) {
-                    if (!fileName.isNullOrEmpty()) {
-                        model = when {
-                            fileName.lowercase(Locale.ROOT).endsWith(".stl") -> {
-                                StlModel(stream)
-                            }
-                            fileName.lowercase(Locale.ROOT).endsWith(".obj") -> {
-                                ObjModel(stream)
-                            }
-                            fileName.lowercase(Locale.ROOT).endsWith(".ply") -> {
-                                PlyModel(stream)
-                            }
-                            else -> {
-                                // assume it's STL.
-                                StlModel(stream)
-                            }
-                        }
-                        model.title = fileName.split("/")[1].trim()
+                        // TODO: figure out how to NOT need to read the whole file at once.
+                        ByteArrayInputStream(response.body!!.bytes())
                     } else {
-                        // assume it's STL.
-                        // TODO: autodetect file type by reading contents?
-                        model = StlModel(stream)
+                        cr.openInputStream(uri)
                     }
+                    if (stream != null) {
+                        if (!fileName.isNullOrEmpty()) {
+                            model = when {
+                                fileName.lowercase(Locale.ROOT).endsWith(".stl") -> {
+                                    StlModel(stream)
+                                }
+                                fileName.lowercase(Locale.ROOT).endsWith(".obj") -> {
+                                    ObjModel(stream)
+                                }
+                                fileName.lowercase(Locale.ROOT).endsWith(".ply") -> {
+                                    PlyModel(stream)
+                                }
+                                else -> {
+                                    // assume it's STL.
+                                    StlModel(stream)
+                                }
+                            }
+                            model.title = fileName.split("/")[1].trim()
+                        } else {
+                            // assume it's STL.
+                            // TODO: autodetect file type by reading contents?
+                            model = StlModel(stream)
+                        }
+                    }
+                    ModelViewerApplication.currentFittingModel = model
+                    model!!
+                } finally {
+                    Util.closeSilently(stream)
                 }
-                ModelViewerApplication.currentFittingModel = model
-                model!!
-            } finally {
-                Util.closeSilently(stream)
-            }
-        }.subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doAfterTerminate {
-                binding.progressBar.visibility = View.GONE
-            }
-            .subscribe({
-                setCurrentModel(it)
-            }, {
-                it.printStackTrace()
-                Toast.makeText(contextWrapper.applicationContext, getString(R.string.open_model_error, it.message), Toast.LENGTH_SHORT).show()
-            }))
+            }.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doAfterTerminate {
+                    binding.progressBar.visibility = View.GONE
+                }
+                .subscribe({
+                    setCurrentModel(it)
+                }, {
+                    it.printStackTrace()
+                    Toast.makeText(contextWrapper.applicationContext, getString(R.string.open_model_error, it.message), Toast.LENGTH_SHORT).show()
+                }))
     }
 
     private fun getFileName(cr: ContentResolver, uri: Uri): String? {

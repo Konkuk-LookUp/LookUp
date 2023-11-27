@@ -92,6 +92,7 @@ class BodyFragment : Fragment() {
 
     private fun initBtn() {
         binding.startCameraBtn.setOnClickListener {
+//            startCamera()
             addModel()
         }
         binding.sampleModelBtn.setOnClickListener {
@@ -100,6 +101,10 @@ class BodyFragment : Fragment() {
     }
     private fun addModel(){
         val intent = Intent(activity, AddBodyActivity::class.java)
+        startActivity(intent)
+    }
+    private fun startCamera(){
+        val intent = Intent(activity,BodyCameraActivity::class.java)
         startActivity(intent)
     }
 
