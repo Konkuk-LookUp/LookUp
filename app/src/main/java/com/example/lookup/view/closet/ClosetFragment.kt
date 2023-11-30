@@ -44,7 +44,7 @@ class ClosetFragment : Fragment() {
             override fun OnItemClick(data: MyCloth, pos: Int) {
                 val cloth = data.name //R.drawable 형식
                 //TODO 옷 받아온걸로 인텐트에 값을 넘겨야하고 받아서 확인하는 작업 추가해야함
-                PreferenceManager.setString(requireContext(),data.filename,"white_sneakers.obj")
+                PreferenceManager.setString(requireContext(), CLOTH_FILENAME,"white_sneakers.obj")
                 val intent = Intent(requireContext(), ClothActivity::class.java)
                 startActivity(intent)
             }
@@ -54,6 +54,6 @@ class ClosetFragment : Fragment() {
     }
 
     companion object{
-//        const val CLOTH_FILENAME = "cloth_filename"
+        const val CLOTH_FILENAME = "cloth_filename"
     }
 }
