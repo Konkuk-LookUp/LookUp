@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:orientation="horizontal"
+    android:layout_margin="10dp"
+    android:background="@drawable/frame_edittext"
+    android:padding="8dp"
+    >
+    <ImageView
+        android:id="@+id/cloth_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+    <Space
+        android:layout_width="10dp"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:layout_gravity="center"
+        android:id="@+id/clothname"
+        android:layout_weight="1"
+        android:gravity="left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="샘플"
+        android:textSize="20sp"
+        />
+
+
+</LinearLayout>
