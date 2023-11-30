@@ -38,7 +38,7 @@ class UserModel() {
     }
 
     fun getWeight():Float{
-        return height
+        return weight
     }
 
     fun getSize():SizeInfo{
