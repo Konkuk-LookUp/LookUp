@@ -4,11 +4,12 @@ import android.util.Log
 import com.example.lookup.data.UserModel
 
 object ModelParser {
+    private const val TAG = "ModelParser"
     private const val MODEL_DELIMITER = "/"
 
     private val defaultFiles = mapOf(
-        Pair("men","men.obj"),
         Pair("men-180-70","men-180-70.obj"),
+        Pair("men-170-70","men.obj"),
         Pair("female","female.obj"),
     )
 
@@ -18,20 +19,17 @@ object ModelParser {
 
     fun getFilename(userModel: UserModel): String {
 
-        val height = userModel.getHeight()
-        val weight = userModel.getWeight()
+        val height = userModel.getHeight()/10*10
+        val weight = userModel.getWeight()/10*10
         val size = userModel.getSize()
 
-        if (height >= 180f) {
-            return defaultFiles["men-180-70"]!!
+        val key = "men-$height-$weight"
+        Log.d(TAG, "key = $key")
+
+        if (defaultFiles.containsKey(key)) {
+            return defaultFiles[key]!!
         }
-        if (height >= 170f) {
-            return defaultFiles["men"]!!
-        }
-        if (height >= 160f) {
-            return defaultFiles["female"]!!
-        }
-        return "WAITAO.obj"
+        return "female.obj"
     }
 
     fun getFittingModelFilename(userModelFilename: String, clothName: String): String? {

@@ -18,35 +18,39 @@ class MainActivity : AppCompatActivity() , NavigationBarView.OnItemSelectedListe
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        initLayout()
-
     }
 
-    private fun initLayout() {
+    private fun initLayout(ItemId:Int) {
         binding.navView.run{
             setOnItemSelectedListener {
                 onNavigationItemSelected(it)
             }
             //초기 화면 홈으로 설정
-            selectedItemId = R.id.nav_body
+            selectedItemId = ItemId
             val currentFragment = supportFragmentManager.findFragmentById(R.id.main_frm)
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        val fragmentId = intent.getIntExtra("fragment",R.id.nav_fit)
+        initLayout(fragmentId)
+    }
+
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
-            R.id.nav_body -> { // 메인 화면
-                /* fragment 로 구현 */
-                binding.title.text = "신체 모델"
-                supportFragmentManager.beginTransaction().replace(R.id.main_frm, BodyFragment()).commit()
+            R.id.nav_fit -> {
+                binding.title.text = "피팅룸"
+                supportFragmentManager.beginTransaction().replace(R.id.main_frm,FittingFragment()).commit()
             }
             R.id.nav_clothes -> {
                 binding.title.text = "옷장"
                 supportFragmentManager.beginTransaction().replace(R.id.main_frm, ClosetFragment()).commit()
             }
-            R.id.nav_fit -> {
-                binding.title.text = "피팅룸"
-                supportFragmentManager.beginTransaction().replace(R.id.main_frm,FittingFragment()).commit()
+            R.id.nav_body -> { // 메인 화면
+                /* fragment 로 구현 */
+                binding.title.text = "신체 모델"
+                supportFragmentManager.beginTransaction().replace(R.id.main_frm, BodyFragment()).commit()
             }
             R.id.nav_client -> {
                 binding.title.text = "회원 정보"
