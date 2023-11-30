@@ -107,9 +107,10 @@ class BodyCameraActivity : AppCompatActivity() {
 
         var userModel = UserModel(height, weight, keyPoints!!)
         val fileName = ModelParser.getFilename(userModel)
+        Log.d(TAG, "filename : $fileName")
         PreferenceManager.setString(this,"filename",fileName)
-
         val intent = Intent(this, MainActivity::class.java)
+        intent.putExtra("fragment",R.id.nav_body)
         startActivity(intent)
     }
 

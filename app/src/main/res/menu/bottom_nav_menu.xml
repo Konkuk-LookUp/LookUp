@@ -2,10 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/nav_body"
-        android:icon="@drawable/body"
-        android:checked="true"
-        android:title="body" />
+        android:id="@+id/nav_fit"
+        android:icon="@drawable/fitting"
+        android:title="fitting" />
 
     <item
         android:id="@+id/nav_clothes"
@@ -13,9 +12,10 @@
         android:title="clothes" />
 
     <item
-        android:id="@+id/nav_fit"
-        android:icon="@drawable/fitting"
-        android:title="fitting" />
+        android:id="@+id/nav_body"
+        android:icon="@drawable/body"
+        android:checked="true"
+        android:title="body" />
 
     <item
         android:id="@+id/nav_client"

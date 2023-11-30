@@ -33,12 +33,12 @@ class UserModel() {
         sizeInfo = SizeInfo(keyPoints!!, pixelHeight, height)
     }
 
-    fun getHeight():Float{
-        return height
+    fun getHeight():Int{
+        return height.toInt()
     }
 
-    fun getWeight():Float{
-        return weight
+    fun getWeight():Int{
+        return weight.toInt()
     }
 
     fun getSize():SizeInfo{
