@@ -17,16 +17,42 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <Button
+        <ImageView
+            android:id="@+id/notFoundModelImg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/not_found_model"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.43" />
+
+        <TextView
+            android:id="@+id/notFoundModelText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="15dp"
+            android:text="아직 신체 모델이 없어요.\n(+) 버튼을 눌러 신체 모델을 추가해주세요."
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/notFoundModelImg" />
+
+        <ImageButton
             android:id="@+id/startCameraBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="add model"
+            android:src="@drawable/plus_button"
+            android:background="#00ff0000"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.91"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.963" />
+            app:layout_constraintVertical_bias="0.963"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

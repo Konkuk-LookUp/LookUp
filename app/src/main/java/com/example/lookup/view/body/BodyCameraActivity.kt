@@ -229,7 +229,7 @@ class BodyCameraActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(
                     this,
-                    "Permissions not granted by the user.",
+                    "카메라 기능을 위해선 권한이 필요합니다.",
                     Toast.LENGTH_SHORT
                 ).show()
                 finish()

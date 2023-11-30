@@ -19,8 +19,8 @@ object ModelParser {
 
     fun getFilename(userModel: UserModel): String {
 
-        val height = userModel.getHeight()
-        val weight = userModel.getWeight()
+        val height = userModel.getHeight()/10*10
+        val weight = userModel.getWeight()/10*10
         val size = userModel.getSize()
 
         val key = "men-$height-$weight"

@@ -191,8 +191,10 @@ class FittingFragment : Fragment() {
 
     private fun createNewModelView(model: Model?) {
         if (modelView != null) {
+            binding.notFoundModelView.visibility = View.VISIBLE
             binding.fittingFragment.removeView(modelView)
         }
+        binding.notFoundModelView.visibility = View.GONE
         modelView = ModelSurfaceView(requireContext(), model)
         binding.fittingFragment.addView(modelView, 0)
     }

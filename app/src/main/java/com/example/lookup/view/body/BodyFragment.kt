@@ -94,6 +94,15 @@ class BodyFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         renderModel()
+        if(ModelViewerApplication.currentModel == null){
+            visibilityOfNotFoundModel(View.VISIBLE)
+            return
+        }
+    }
+
+    private fun visibilityOfNotFoundModel(visible:Int) {
+        binding.notFoundModelImg.visibility = visible
+        binding.notFoundModelText.visibility = visible
     }
 
     private fun renderModel() {
@@ -132,8 +141,10 @@ class BodyFragment : Fragment() {
 
     private fun createNewModelView(model: Model?) {
         if (modelView != null) {
+            visibilityOfNotFoundModel(View.VISIBLE)
             binding.bodyFragment.removeView(modelView)
         }
+        visibilityOfNotFoundModel(View.GONE)
         modelView = ModelSurfaceView(requireContext(), model)
         binding.bodyFragment.addView(modelView, 0)
     }
