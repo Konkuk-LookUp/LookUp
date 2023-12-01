@@ -31,11 +31,11 @@ class ClosetFragment : Fragment() {
     }
 
     private fun initData() {
-        data.add(MyCloth(R.drawable.cloth_example,"후드티","hood.obj"))
-        data.add(MyCloth(R.drawable.cloth_example,"티셔츠","tshirt.obj"))
-        data.add(MyCloth(R.drawable.cloth_example,"긴바지","longpants.obj"))
-        data.add(MyCloth(R.drawable.cloth_example,"반바지","shortpants.obj"))
-        data.add(MyCloth(R.drawable.cloth_example,"운동화","white_sneakers.obj"))
+        data.add(MyCloth(R.drawable.hood,"후드티","hood.obj"))
+        data.add(MyCloth(R.drawable.tshirt,"티셔츠","tshirt.obj"))
+        data.add(MyCloth(R.drawable.longpants,"긴바지","longpants.obj"))
+        data.add(MyCloth(R.drawable.shortpants,"반바지","shortpants.obj"))
+        data.add(MyCloth(R.drawable.whitesneaker,"운동화","white_sneakers.obj"))
     }
 
     private fun initRecycler(){

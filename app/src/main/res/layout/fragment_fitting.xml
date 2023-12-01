@@ -72,32 +72,32 @@
                 android:id="@+id/cloth1"
                 android:layout_width="0dp"
                 android:layout_weight="1"                android:layout_height="wrap_content"
-                android:src="@drawable/cloth_example" />
+                android:src="@drawable/hood" />
             <ImageView
                 android:layout_margin="10dp"
                 android:id="@+id/cloth2"
                 android:layout_width="0dp"
                 android:layout_weight="1"                android:layout_height="wrap_content"
-                android:src="@drawable/cloth_example" />
+                android:src="@drawable/tshirt" />
             <ImageView
                 android:layout_margin="10dp"
                 android:id="@+id/cloth3"
                 android:layout_width="0dp"
                 android:layout_weight="1"                android:layout_height="wrap_content"
-                android:src="@drawable/cloth_example" />
+                android:src="@drawable/longpants" />
             <ImageView
                 android:layout_margin="10dp"
                 android:id="@+id/cloth4"
                 android:layout_width="0dp"
                 android:layout_weight="1"                android:layout_height="wrap_content"
-                android:src="@drawable/cloth_example" />
+                android:src="@drawable/shortpants" />
             <ImageView
                 android:layout_margin="10dp"
                 android:id="@+id/cloth5"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:src="@drawable/cloth_example" />
+                android:src="@drawable/whitesneaker" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
