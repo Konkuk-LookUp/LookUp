@@ -80,7 +80,6 @@ class FittingFragment : Fragment() {
 //            android.R.layout.simple_spinner_dropdown_item
         ).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            binding.spinner.adapter = adapter
         }
         binding.apply{
             //TODO 옷 클릭시 기능 구현
