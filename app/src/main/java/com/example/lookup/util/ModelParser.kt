@@ -42,7 +42,11 @@ object ModelParser {
     )
 
     private val fittingFiles = mapOf(
-        Pair("men-180-70${MODEL_DELIMITER}shoes","men-180-70-shoes.stl")
+        Pair("men-180-70${MODEL_DELIMITER}shoes","men-180-70-shoes.stl"),
+        Pair("men-180-70${MODEL_DELIMITER}hood","men-180-70-hood.obj"),
+        Pair("men-180-70${MODEL_DELIMITER}shortpants","men-180-70-shortpants.obj"),
+        Pair("men-180-70${MODEL_DELIMITER}longpants","men-180-70-longpants.obj"),
+        Pair("men-180-70${MODEL_DELIMITER}tshirt","men-180-70-tshirt.obj")
     )
 
     fun getFilename(userModel: UserModel): String {
