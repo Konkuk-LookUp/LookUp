@@ -1,14 +1,17 @@
 package com.example.lookup.view.closet
 
 import android.content.ContentResolver
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContentResolverCompat
+import com.example.lookup.MainActivity
 import com.example.lookup.R
 import com.example.lookup.databinding.ActivityClothBinding
 import com.example.lookup.module.model.Model
@@ -38,6 +41,16 @@ class ClothActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityClothBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val intent = Intent(this@ClothActivity, MainActivity::class.java)
+                intent.putExtra("fragment",R.id.nav_clothes)
+                startActivity(intent)
+            }
+        }
+
+        onBackPressedDispatcher.addCallback(this, callback)
     }
 
     override fun onStart() {
@@ -92,6 +105,7 @@ class ClothActivity : AppCompatActivity() {
 
     private fun beginLoadModel(uri: Uri) {
         binding.progressBar.visibility = View.VISIBLE
+        binding.bodyFragment.removeView(modelView)
 
         disposables.add(
             Observable.fromCallable {

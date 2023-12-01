@@ -1,10 +1,17 @@
 package com.example.lookup.module.model
 
+import android.content.Context
 import android.opengl.GLES20
 import android.opengl.GLSurfaceView
 import android.opengl.Matrix
+import androidx.core.content.ContentProviderCompat.requireContext
+import com.example.lookup.module.model.obj.ObjModel
+import com.example.lookup.module.model.stl.StlModel
+import com.example.lookup.util.PreferenceManager
+import com.google.android.play.integrity.internal.f
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
+import kotlin.math.pow
 
 /*
 * Copyright 2017 Dmitry Brant. All rights reserved.
@@ -21,7 +28,7 @@ import javax.microedition.khronos.opengles.GL10
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-class ModelRenderer(private val model: Model?) : GLSurfaceView.Renderer {
+class ModelRenderer(private val model: Model?,private val context: Context) : GLSurfaceView.Renderer {
     private val light = Light(floatArrayOf(0.0f, 0.0f, MODEL_BOUND_SIZE * 10, 1.0f))
     private val floor = Floor()
 
@@ -73,8 +80,16 @@ class ModelRenderer(private val model: Model?) : GLSurfaceView.Renderer {
         rotateAngleX = 0f
         rotateAngleY = 0f
         translateX = 0f
-        translateY = 0f
-        translateZ = -MODEL_BOUND_SIZE * 1.5f
+        val filename = PreferenceManager.getString(context, "filename")
+        val height = filename!!.split("-")[1].toFloat()
+
+        if(model is StlModel){
+            translateY = MODEL_BOUND_SIZE / 2.2f
+            translateZ = -1* (-0.6*(height-160)+78).toFloat()
+        }else if(model is ObjModel){
+            translateY = -MODEL_BOUND_SIZE /6f
+            translateZ = -1* (-0.6*(height-160)+70).toFloat()
+        }
         updateViewMatrix()
 
         // Set light matrix before doing any other transforms on the view matrix

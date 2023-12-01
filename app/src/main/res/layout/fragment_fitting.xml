@@ -9,7 +9,7 @@
     <FrameLayout
         android:id="@+id/fittingFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:layout_weight="1"
         >
 
@@ -19,10 +19,40 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/notFoundModelView"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/notFoundModelImg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/not_found_model"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="15dp"
+                android:text="아직 신체 모델이 없어요.\n신체 모델 탭으로 이동하여 추가해주세요."
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/notFoundModelImg" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
     </FrameLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         >
         <View
@@ -45,6 +75,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
+            android:paddingVertical="30dp"
             android:gravity="center"
             >
             <ImageView

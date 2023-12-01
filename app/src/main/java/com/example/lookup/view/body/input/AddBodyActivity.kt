@@ -2,7 +2,10 @@ package com.example.lookup.view.body.input
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
+import com.example.lookup.MainActivity
+import com.example.lookup.R
 import com.example.lookup.databinding.ActivityAddBodyBinding
 
 class AddBodyActivity : AppCompatActivity() {
@@ -12,6 +15,16 @@ class AddBodyActivity : AppCompatActivity() {
         binding = ActivityAddBodyBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initLayout()
+
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val intent = Intent(this@AddBodyActivity, MainActivity::class.java)
+                intent.putExtra("fragment", R.id.nav_body)
+                startActivity(intent)
+            }
+        }
+
+        onBackPressedDispatcher.addCallback(this, callback)
     }
 
     private fun initLayout() {

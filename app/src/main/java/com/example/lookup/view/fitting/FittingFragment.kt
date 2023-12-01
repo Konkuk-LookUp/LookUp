@@ -25,7 +25,7 @@ import com.example.lookup.module.model.obj.ObjModel
 import com.example.lookup.module.model.ply.PlyModel
 import com.example.lookup.module.model.stl.StlModel
 import com.example.lookup.module.model.util.Util
-import com.example.lookup.util.ModelParser.getFittingModelFilename
+import com.example.lookup.util.ModelParser
 import com.example.lookup.util.PreferenceManager
 import com.example.lookup.view.body.BodyFragment
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -59,6 +59,7 @@ class FittingFragment : Fragment() {
         contextThemeWrapper = ContextThemeWrapper(context, R.style.Theme_LookUp)
 
         binding.progressBar.visibility = View.GONE
+        binding.notFoundModelView.visibility = View.GONE
         initLayout()
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.fittingFragment) { _, insets ->
@@ -100,8 +101,13 @@ class FittingFragment : Fragment() {
 
     private fun setFittingModel(clothName: String) {
         val userModelName = PreferenceManager.getString(requireContext(), USER_MODEL_FILENAME)
-        val fittingModelFilename = getFittingModelFilename(userModelName!!, clothName)
+        val fittingModelFilename = ModelParser.getFittingModelFilename(userModelName!!, clothName)
 
+        if(ModelViewerApplication.currentModel == null){
+            binding.notFoundModelView.visibility = View.VISIBLE
+            Toast.makeText(requireContext(), "모델을 먼저 추가해주세요.", Toast.LENGTH_SHORT).show()
+            return
+        }
 
         if (!fittingModelFilename.isNullOrBlank()) {
             PreferenceManager.setString(requireContext(),FITTING_MODEL_FILENAME,fittingModelFilename)
@@ -113,7 +119,11 @@ class FittingFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        createNewModelView(ModelViewerApplication.currentModel)
+        renderModel()
+        if(ModelViewerApplication.currentModel == null){
+            binding.notFoundModelView.visibility = View.VISIBLE
+            return
+        }
     }
 
     private fun renderFittingModel() {
@@ -131,14 +141,34 @@ class FittingFragment : Fragment() {
         }
 
         if (!filenameFitting.isNullOrBlank()) {
-            loadModelByFilename(filenameFitting!!)
+            loadModelByFilename(filenameFitting!!,1)
         }
     }
 
-    private fun loadModelByFilename(filename:String) {
-        val initUri =
-            Uri.parse(SERVER_URL +filename)
-        beginLoadModel(initUri)
+    private fun renderModel() {
+        createNewModelView(ModelViewerApplication.currentModel)
+
+        val filename = PreferenceManager.getString(requireContext(), "filename")
+        Log.d(BodyFragment.TAG, "filename: $filename")
+
+        if (ModelViewerApplication.currentModel != null) {
+            Log.d(BodyFragment.TAG, "title: ${ModelViewerApplication.currentModel!!.title}")
+            activity?.title = ModelViewerApplication.currentModel!!.title
+        }
+
+        if (!filename.isNullOrBlank()) {
+            loadModelByFilename(filename!!,0)
+        }
+    }
+
+    private fun loadModelByFilename(filename:String, targetModel:Int) {
+        var initUri:Uri = Uri.parse(SERVER_URL +filename)
+        if(targetModel == 0){
+            initUri = Uri.parse(SERVER_URL_MODEL +filename)
+        }else if(targetModel == 1){
+            initUri = Uri.parse(SERVER_URL +filename)
+        }
+        beginLoadModel(initUri,targetModel)
     }
 
     override fun onPause() {
@@ -158,14 +188,18 @@ class FittingFragment : Fragment() {
 
     private fun createNewModelView(model: Model?) {
         if (modelView != null) {
+            binding.notFoundModelView.visibility = View.VISIBLE
             binding.fittingFragment.removeView(modelView)
         }
+        binding.notFoundModelView.visibility = View.GONE
         modelView = ModelSurfaceView(requireContext(), model)
         binding.fittingFragment.addView(modelView, 0)
     }
 
-    private fun beginLoadModel(uri: Uri) {
+    private fun beginLoadModel(uri: Uri,targetModel: Int) {
         binding.progressBar.visibility = View.VISIBLE
+        binding.notFoundModelView.visibility = View.GONE
+        binding.fittingFragment.removeView(modelView)
 
         disposables.add(
             Observable.fromCallable {
@@ -191,6 +225,7 @@ class FittingFragment : Fragment() {
                                     StlModel(stream)
                                 }
                                 fileName.lowercase(Locale.ROOT).endsWith(".obj") -> {
+                                    Log.d(TAG, "beginLoadModel() called + $fileName")
                                     ObjModel(stream)
                                 }
                                 fileName.lowercase(Locale.ROOT).endsWith(".ply") -> {
@@ -208,7 +243,12 @@ class FittingFragment : Fragment() {
                             model = StlModel(stream)
                         }
                     }
-                    ModelViewerApplication.currentFittingModel = model
+                    if(targetModel == 0){
+                        ModelViewerApplication.currentModel = model
+                    }
+                    else if(targetModel == 1){
+                        ModelViewerApplication.currentFittingModel = model
+                    }
                     model!!
                 } finally {
                     Util.closeSilently(stream)
@@ -217,11 +257,15 @@ class FittingFragment : Fragment() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doAfterTerminate {
                     binding.progressBar.visibility = View.GONE
+                    binding.notFoundModelView.visibility = View.GONE
                 }
                 .subscribe({
                     setCurrentModel(it)
                 }, {
                     it.printStackTrace()
+                    if(ModelViewerApplication.currentModel == null){
+                        binding.notFoundModelView.visibility = View.VISIBLE
+                    }
                     Toast.makeText(contextWrapper.applicationContext, getString(R.string.open_model_error, it.message), Toast.LENGTH_SHORT).show()
                 }))
     }
@@ -240,7 +284,7 @@ class FittingFragment : Fragment() {
 
     private fun setCurrentModel(model: Model) {
         createNewModelView(model)
-        Toast.makeText(contextWrapper.applicationContext, R.string.open_model_success, Toast.LENGTH_SHORT).show()
+//        Toast.makeText(contextWrapper.applicationContext, R.string.open_model_success, Toast.LENGTH_SHORT).show()
         activity?.title = model.title
         binding.progressBar.visibility = View.GONE
     }
@@ -248,6 +292,7 @@ class FittingFragment : Fragment() {
     companion object{
         const val TAG = "FittingFragment"
         const val SERVER_URL = "http://ec2-3-36-70-109.ap-northeast-2.compute.amazonaws.com:3000/get-obj/fitting%2F"
+        const val SERVER_URL_MODEL = "http://ec2-3-36-70-109.ap-northeast-2.compute.amazonaws.com:3000/get-obj/default%2F"
         const val USER_MODEL_FILENAME = "filename"
         const val FITTING_MODEL_FILENAME = "fitting_filename"
         const val SHOES = "shoes"

@@ -41,8 +41,6 @@ import java.util.Locale
 
 class BodyFragment : Fragment() {
     private lateinit var binding: FragmentBodyBinding
-    private lateinit var sampleModels: List<String>
-    private var sampleModelIndex = 0
     private var modelView: ModelSurfaceView? = null
     private val disposables = CompositeDisposable()
     private lateinit var contextWrapper:ContextWrapper
@@ -65,10 +63,6 @@ class BodyFragment : Fragment() {
 
         binding.progressBar.visibility = View.GONE
 
-        binding.sampleModelBtn.setOnClickListener {
-            loadSampleModel()
-        }
-
         ViewCompat.setOnApplyWindowInsetsListener(binding.bodyFragment) { _, insets ->
             (binding.progressBar.layoutParams as FrameLayout.LayoutParams).apply {
                 topMargin = insets.systemWindowInsetTop
@@ -78,9 +72,6 @@ class BodyFragment : Fragment() {
             }
             insets.consumeSystemWindowInsets()
         }
-
-        sampleModels = contextThemeWrapper.assets.list("")!!.filter { it.endsWith(".stl")}
-
     }
 
     private fun loadModelByFilename(filename:String) {
@@ -92,24 +83,29 @@ class BodyFragment : Fragment() {
 
     private fun initBtn() {
         binding.startCameraBtn.setOnClickListener {
-//            startCamera()
             addModel()
-        }
-        binding.sampleModelBtn.setOnClickListener {
-            loadSampleModel()
         }
     }
     private fun addModel(){
         val intent = Intent(activity, AddBodyActivity::class.java)
         startActivity(intent)
     }
-    private fun startCamera(){
-        val intent = Intent(activity,BodyCameraActivity::class.java)
-        startActivity(intent)
-    }
 
     override fun onStart() {
         super.onStart()
+        renderModel()
+        if(ModelViewerApplication.currentModel == null){
+            visibilityOfNotFoundModel(View.VISIBLE)
+            return
+        }
+    }
+
+    private fun visibilityOfNotFoundModel(visible:Int) {
+        binding.notFoundModelImg.visibility = visible
+        binding.notFoundModelText.visibility = visible
+    }
+
+    private fun renderModel() {
         createNewModelView(ModelViewerApplication.currentModel)
 
         val filename = PreferenceManager.getString(requireContext(), "filename")
@@ -118,7 +114,7 @@ class BodyFragment : Fragment() {
         if (ModelViewerApplication.currentModel != null) {
             Log.d(TAG, "title: ${ModelViewerApplication.currentModel!!.title}")
             activity?.title = ModelViewerApplication.currentModel!!.title
-            if(ModelViewerApplication.currentModel!!.title == filename){
+            if (ModelViewerApplication.currentModel!!.title == filename) {
                 return
             }
         }
@@ -145,14 +141,19 @@ class BodyFragment : Fragment() {
 
     private fun createNewModelView(model: Model?) {
         if (modelView != null) {
+            visibilityOfNotFoundModel(View.VISIBLE)
             binding.bodyFragment.removeView(modelView)
         }
+        visibilityOfNotFoundModel(View.GONE)
         modelView = ModelSurfaceView(requireContext(), model)
         binding.bodyFragment.addView(modelView, 0)
     }
 
     private fun beginLoadModel(uri: Uri) {
         binding.progressBar.visibility = View.VISIBLE
+        binding.bodyFragment.removeView(modelView)
+        binding.notFoundModelText.visibility = View.GONE
+        binding.notFoundModelImg.visibility = View.GONE
 
         disposables.add(Observable.fromCallable {
             var model: Model? = null
@@ -203,11 +204,17 @@ class BodyFragment : Fragment() {
             .observeOn(AndroidSchedulers.mainThread())
             .doAfterTerminate {
                 binding.progressBar.visibility = View.GONE
+                binding.notFoundModelText.visibility = View.GONE
+                binding.notFoundModelImg.visibility = View.GONE
             }
             .subscribe({
                 setCurrentModel(it)
             }, {
                 it.printStackTrace()
+                if(ModelViewerApplication.currentModel == null){
+                    binding.notFoundModelText.visibility = View.VISIBLE
+                    binding.notFoundModelImg.visibility = View.VISIBLE
+                }
                 Toast.makeText(contextWrapper.applicationContext, getString(R.string.open_model_error, it.message), Toast.LENGTH_SHORT).show()
             }))
     }
@@ -229,16 +236,6 @@ class BodyFragment : Fragment() {
         Toast.makeText(contextWrapper.applicationContext, R.string.open_model_success, Toast.LENGTH_SHORT).show()
         activity?.title = model.title
         binding.progressBar.visibility = View.GONE
-    }
-
-    private fun loadSampleModel() {
-        try {
-            val stream = contextThemeWrapper.assets.open(sampleModels[sampleModelIndex++ % sampleModels.size])
-            setCurrentModel(StlModel(stream))
-            stream.close()
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
     }
 
     companion object{

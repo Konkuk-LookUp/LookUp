@@ -31,10 +31,10 @@ class ClosetFragment : Fragment() {
     }
 
     private fun initData() {
-        data.add(MyCloth(R.drawable.cloth_example,"갈색 긴팔 셔츠","filename"))
-        data.add(MyCloth(R.drawable.cloth_example,"회색 긴팔 셔츠","filename"))
-        data.add(MyCloth(R.drawable.cloth_example,"베이지색 폴로 셔츠","filename"))
-        data.add(MyCloth(R.drawable.cloth_example,"하늘색 하와이안 셔츠","filename"))
+        data.add(MyCloth(R.drawable.cloth_example,"드레스","blackdress.obj"))
+        data.add(MyCloth(R.drawable.cloth_example,"가디건","cloak.obj"))
+        data.add(MyCloth(R.drawable.cloth_example,"운동화","white_sneakers.obj"))
+        data.add(MyCloth(R.drawable.cloth_example,"하늘색 하와이안 셔츠","white_sneakers.obj"))
     }
 
     private fun initRecycler(){
@@ -42,9 +42,7 @@ class ClosetFragment : Fragment() {
         clothAdapter = MyClothAdapter(data)
         clothAdapter.itemClickListener=object:MyClothAdapter.OnItemClickListener{
             override fun OnItemClick(data: MyCloth, pos: Int) {
-                val cloth = data.name //R.drawable 형식
-                //TODO 옷 받아온걸로 인텐트에 값을 넘겨야하고 받아서 확인하는 작업 추가해야함
-                PreferenceManager.setString(requireContext(), CLOTH_FILENAME,"white_sneakers.obj")
+                PreferenceManager.setString(requireContext(), CLOTH_FILENAME,data.filename)
                 val intent = Intent(requireContext(), ClothActivity::class.java)
                 startActivity(intent)
             }

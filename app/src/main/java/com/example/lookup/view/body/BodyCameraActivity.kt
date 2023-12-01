@@ -107,8 +107,8 @@ class BodyCameraActivity : AppCompatActivity() {
 
         var userModel = UserModel(height, weight, keyPoints!!)
         val fileName = ModelParser.getFilename(userModel)
+        Log.d(TAG, "filename : $fileName")
         PreferenceManager.setString(this,"filename",fileName)
-
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
     }
@@ -228,7 +228,7 @@ class BodyCameraActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(
                     this,
-                    "Permissions not granted by the user.",
+                    "카메라 기능을 위해선 권한이 필요합니다.",
                     Toast.LENGTH_SHORT
                 ).show()
                 finish()
