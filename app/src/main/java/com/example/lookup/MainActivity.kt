@@ -1,7 +1,9 @@
 package com.example.lookup
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import com.example.lookup.databinding.ActivityMainBinding
 
@@ -18,6 +20,15 @@ class MainActivity : AppCompatActivity() , NavigationBarView.OnItemSelectedListe
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        initLayout(R.id.nav_fit)
+
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                finishAffinity()
+            }
+        }
+
+        onBackPressedDispatcher.addCallback(this, callback)
     }
 
     private fun initLayout(ItemId:Int) {
@@ -26,15 +37,18 @@ class MainActivity : AppCompatActivity() , NavigationBarView.OnItemSelectedListe
                 onNavigationItemSelected(it)
             }
             //초기 화면 홈으로 설정
+
             selectedItemId = ItemId
             val currentFragment = supportFragmentManager.findFragmentById(R.id.main_frm)
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        val fragmentId = intent.getIntExtra("fragment",R.id.nav_fit)
-        initLayout(fragmentId)
+    override fun onStart() {
+        super.onStart()
+        if(binding.navView.selectedItemId != R.id.nav_fit){
+            val fragmentId = intent.getIntExtra("fragment",R.id.nav_fit)
+            initLayout(fragmentId)
+        }
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

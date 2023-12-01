@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.lookup.MainActivity
+import com.example.lookup.R
 import com.example.lookup.data.SizeInfo
 import com.example.lookup.data.UserModel
 import com.example.lookup.databinding.ActivityGenerateModelBinding
@@ -137,10 +138,10 @@ class GenerateModelActivity : AppCompatActivity() {
             .show()
     }
     companion object{
-        const val MAX_HEIGHT = 200f;
+        const val MAX_HEIGHT = 190f;
         const val MIN_HEIGHT = 160f;
-        const val MAX_WEIGHT = 100f;
-        const val MIN_WEIGHT = 50f;
+        const val MAX_WEIGHT = 90f;
+        const val MIN_WEIGHT = 60f;
         //TODO shoulder, leg, arm ,waist 에 대한 min max?
         const val MAX_SHOULDER = 70f
         const val MIN_SHOULDER = 20f

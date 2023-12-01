@@ -25,7 +25,7 @@ import com.example.lookup.module.model.obj.ObjModel
 import com.example.lookup.module.model.ply.PlyModel
 import com.example.lookup.module.model.stl.StlModel
 import com.example.lookup.module.model.util.Util
-import com.example.lookup.util.ModelParser.getFittingModelFilename
+import com.example.lookup.util.ModelParser
 import com.example.lookup.util.PreferenceManager
 import com.example.lookup.view.body.BodyFragment
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -101,7 +101,7 @@ class FittingFragment : Fragment() {
 
     private fun setFittingModel(clothName: String) {
         val userModelName = PreferenceManager.getString(requireContext(), USER_MODEL_FILENAME)
-        val fittingModelFilename = getFittingModelFilename(userModelName!!, clothName)
+        val fittingModelFilename = ModelParser.getFittingModelFilename(userModelName!!, clothName)
 
         if(ModelViewerApplication.currentModel == null){
             binding.notFoundModelView.visibility = View.VISIBLE
@@ -154,9 +154,6 @@ class FittingFragment : Fragment() {
         if (ModelViewerApplication.currentModel != null) {
             Log.d(BodyFragment.TAG, "title: ${ModelViewerApplication.currentModel!!.title}")
             activity?.title = ModelViewerApplication.currentModel!!.title
-            if (ModelViewerApplication.currentModel!!.title == filename) {
-                return
-            }
         }
 
         if (!filename.isNullOrBlank()) {
@@ -202,6 +199,7 @@ class FittingFragment : Fragment() {
     private fun beginLoadModel(uri: Uri,targetModel: Int) {
         binding.progressBar.visibility = View.VISIBLE
         binding.notFoundModelView.visibility = View.GONE
+        binding.fittingFragment.removeView(modelView)
 
         disposables.add(
             Observable.fromCallable {
@@ -286,7 +284,7 @@ class FittingFragment : Fragment() {
 
     private fun setCurrentModel(model: Model) {
         createNewModelView(model)
-        Toast.makeText(contextWrapper.applicationContext, R.string.open_model_success, Toast.LENGTH_SHORT).show()
+//        Toast.makeText(contextWrapper.applicationContext, R.string.open_model_success, Toast.LENGTH_SHORT).show()
         activity?.title = model.title
         binding.progressBar.visibility = View.GONE
     }
