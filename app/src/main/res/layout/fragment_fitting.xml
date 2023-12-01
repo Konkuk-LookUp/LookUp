@@ -55,18 +55,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         >
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="#EAEAEA"/>
-        <Spinner
-            android:id="@+id/spinner"
-            android:layout_width="match_parent"
-            android:gravity="center"
-            android:layout_height="70dp"
-            android:spinnerMode="dropdown"
-            android:layout_gravity="center"
-            />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="2dp"
