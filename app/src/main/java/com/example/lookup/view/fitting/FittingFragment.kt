@@ -154,9 +154,9 @@ class FittingFragment : Fragment() {
         if (ModelViewerApplication.currentModel != null) {
             Log.d(BodyFragment.TAG, "title: ${ModelViewerApplication.currentModel!!.title}")
             activity?.title = ModelViewerApplication.currentModel!!.title
-            if (ModelViewerApplication.currentModel!!.title == filename) {
-                return
-            }
+//            if (ModelViewerApplication.currentModel!!.title == filename) {
+//                return
+//            }
         }
 
         if (!filename.isNullOrBlank()) {
@@ -202,6 +202,7 @@ class FittingFragment : Fragment() {
     private fun beginLoadModel(uri: Uri,targetModel: Int) {
         binding.progressBar.visibility = View.VISIBLE
         binding.notFoundModelView.visibility = View.GONE
+        binding.fittingFragment.removeView(modelView)
 
         disposables.add(
             Observable.fromCallable {
@@ -286,7 +287,7 @@ class FittingFragment : Fragment() {
 
     private fun setCurrentModel(model: Model) {
         createNewModelView(model)
-        Toast.makeText(contextWrapper.applicationContext, R.string.open_model_success, Toast.LENGTH_SHORT).show()
+//        Toast.makeText(contextWrapper.applicationContext, R.string.open_model_success, Toast.LENGTH_SHORT).show()
         activity?.title = model.title
         binding.progressBar.visibility = View.GONE
     }

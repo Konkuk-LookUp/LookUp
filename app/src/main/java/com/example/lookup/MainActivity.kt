@@ -1,7 +1,9 @@
 package com.example.lookup
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import com.example.lookup.databinding.ActivityMainBinding
 
@@ -18,6 +20,14 @@ class MainActivity : AppCompatActivity() , NavigationBarView.OnItemSelectedListe
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                finishAffinity()
+            }
+        }
+
+        onBackPressedDispatcher.addCallback(this, callback)
     }
 
     private fun initLayout(ItemId:Int) {

@@ -151,6 +151,9 @@ class BodyFragment : Fragment() {
 
     private fun beginLoadModel(uri: Uri) {
         binding.progressBar.visibility = View.VISIBLE
+        binding.bodyFragment.removeView(modelView)
+        binding.notFoundModelText.visibility = View.GONE
+        binding.notFoundModelImg.visibility = View.GONE
 
         disposables.add(Observable.fromCallable {
             var model: Model? = null
@@ -201,11 +204,17 @@ class BodyFragment : Fragment() {
             .observeOn(AndroidSchedulers.mainThread())
             .doAfterTerminate {
                 binding.progressBar.visibility = View.GONE
+                binding.notFoundModelText.visibility = View.GONE
+                binding.notFoundModelImg.visibility = View.GONE
             }
             .subscribe({
                 setCurrentModel(it)
             }, {
                 it.printStackTrace()
+                if(ModelViewerApplication.currentModel == null){
+                    binding.notFoundModelText.visibility = View.VISIBLE
+                    binding.notFoundModelImg.visibility = View.VISIBLE
+                }
                 Toast.makeText(contextWrapper.applicationContext, getString(R.string.open_model_error, it.message), Toast.LENGTH_SHORT).show()
             }))
     }

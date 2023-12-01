@@ -31,9 +31,9 @@ class ClosetFragment : Fragment() {
     }
 
     private fun initData() {
-        data.add(MyCloth(R.drawable.cloth_example,"갈색 긴팔 셔츠","white_sneakers.obj"))
-        data.add(MyCloth(R.drawable.cloth_example,"회색 긴팔 셔츠","white_sneakers.obj"))
-        data.add(MyCloth(R.drawable.cloth_example,"베이지색 폴로 셔츠","white_sneakers.obj"))
+        data.add(MyCloth(R.drawable.cloth_example,"드레스","blackdress.obj"))
+        data.add(MyCloth(R.drawable.cloth_example,"가디건","cloak.obj"))
+        data.add(MyCloth(R.drawable.cloth_example,"운동화","white_sneakers.obj"))
         data.add(MyCloth(R.drawable.cloth_example,"하늘색 하와이안 셔츠","white_sneakers.obj"))
     }
 

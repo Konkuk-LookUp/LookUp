@@ -73,9 +73,9 @@ class CameraInputActivity : AppCompatActivity() {
     }
 
     companion object{
-        const val MAX_HEIGHT = 200f;
+        const val MAX_HEIGHT = 190f;
         const val MIN_HEIGHT = 160f;
-        const val MAX_WEIGHT = 100f;
-        const val MIN_WEIGHT = 50f;
+        const val MAX_WEIGHT = 90f;
+        const val MIN_WEIGHT = 60f;
     }
 }

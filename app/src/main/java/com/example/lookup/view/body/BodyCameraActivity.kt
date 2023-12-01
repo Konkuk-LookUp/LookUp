@@ -110,7 +110,6 @@ class BodyCameraActivity : AppCompatActivity() {
         Log.d(TAG, "filename : $fileName")
         PreferenceManager.setString(this,"filename",fileName)
         val intent = Intent(this, MainActivity::class.java)
-        intent.putExtra("fragment",R.id.nav_body)
         startActivity(intent)
     }
 
