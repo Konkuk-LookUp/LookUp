@@ -20,7 +20,9 @@ class MainActivity : AppCompatActivity() , NavigationBarView.OnItemSelectedListe
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        initLayout(R.id.nav_fit)
+
+        val fragmentId = intent.getIntExtra("fragment",R.id.nav_fit)
+        initLayout(fragmentId)
 
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -40,14 +42,6 @@ class MainActivity : AppCompatActivity() , NavigationBarView.OnItemSelectedListe
 
             selectedItemId = ItemId
             val currentFragment = supportFragmentManager.findFragmentById(R.id.main_frm)
-        }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        if(binding.navView.selectedItemId != R.id.nav_fit){
-            val fragmentId = intent.getIntExtra("fragment",R.id.nav_fit)
-            initLayout(fragmentId)
         }
     }
 
