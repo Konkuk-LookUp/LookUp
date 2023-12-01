@@ -81,7 +81,11 @@ class ModelRenderer(private val model: Model?,private val context: Context) : GL
         rotateAngleY = 0f
         translateX = 0f
         val filename = PreferenceManager.getString(context, "filename")
-        val height = filename!!.split("-")[1].toFloat()
+        val height:Float = if (!filename.isNullOrBlank()) {
+            filename.split("-")[1].toFloat()
+        }else{
+            160f
+        }
 
         if(model is StlModel){
             translateY = MODEL_BOUND_SIZE / 2.2f
