@@ -80,20 +80,22 @@ class FittingFragment : Fragment() {
 //            android.R.layout.simple_spinner_dropdown_item
         ).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            binding.spinner.adapter = adapter
         }
         binding.apply{
             //TODO 옷 클릭시 기능 구현
             cloth1.setOnClickListener {
-                setFittingModel(SHOES)
+                setFittingModel("hood")
             }
             cloth2.setOnClickListener {
-                setFittingModel(SHOES)
+                setFittingModel(TSHIRT)
             }
             cloth3.setOnClickListener {
-                setFittingModel(SHOES)
+                setFittingModel("longpants")
             }
             cloth4.setOnClickListener {
+                setFittingModel("shortpants")
+            }
+            cloth5.setOnClickListener {
                 setFittingModel(SHOES)
             }
         }
@@ -296,5 +298,6 @@ class FittingFragment : Fragment() {
         const val USER_MODEL_FILENAME = "filename"
         const val FITTING_MODEL_FILENAME = "fitting_filename"
         const val SHOES = "shoes"
+        const val TSHIRT = "tshirt"
     }
 }

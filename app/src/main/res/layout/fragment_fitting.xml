@@ -55,18 +55,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         >
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="#EAEAEA"/>
-        <Spinner
-            android:id="@+id/spinner"
-            android:layout_width="match_parent"
-            android:gravity="center"
-            android:layout_height="70dp"
-            android:spinnerMode="dropdown"
-            android:layout_gravity="center"
-            />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="2dp"
@@ -81,28 +70,34 @@
             <ImageView
                 android:layout_margin="10dp"
                 android:id="@+id/cloth1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"                android:layout_height="wrap_content"
                 android:src="@drawable/cloth_example" />
             <ImageView
                 android:layout_margin="10dp"
                 android:id="@+id/cloth2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"                android:layout_height="wrap_content"
                 android:src="@drawable/cloth_example" />
             <ImageView
                 android:layout_margin="10dp"
                 android:id="@+id/cloth3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"                android:layout_height="wrap_content"
                 android:src="@drawable/cloth_example" />
             <ImageView
                 android:layout_margin="10dp"
                 android:id="@+id/cloth4"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"                android:layout_height="wrap_content"
+                android:src="@drawable/cloth_example" />
+            <ImageView
+                android:layout_margin="10dp"
+                android:id="@+id/cloth5"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:src="@drawable/cloth_example" />
-
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
