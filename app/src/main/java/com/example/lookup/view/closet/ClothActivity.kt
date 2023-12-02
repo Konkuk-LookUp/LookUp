@@ -180,7 +180,6 @@ class ClothActivity : AppCompatActivity() {
 
     private fun setCurrentModel(model: Model) {
         createNewModelView(model)
-        Toast.makeText(applicationContext, R.string.open_model_success, Toast.LENGTH_SHORT).show()
         title = model.title
         binding.progressBar.visibility = View.GONE
     }

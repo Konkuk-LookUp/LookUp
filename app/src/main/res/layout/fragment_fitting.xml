@@ -47,57 +47,86 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/notFoundModelImg" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-
     </FrameLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         >
-
         <View
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:background="#EAEAEA"/>
-        <LinearLayout
+
+        <HorizontalScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:paddingVertical="30dp"
-            android:gravity="center"
-            >
-            <ImageView
-                android:layout_margin="10dp"
-                android:id="@+id/cloth1"
-                android:layout_width="0dp"
-                android:layout_weight="1"                android:layout_height="wrap_content"
-                android:src="@drawable/hood" />
-            <ImageView
-                android:layout_margin="10dp"
-                android:id="@+id/cloth2"
-                android:layout_width="0dp"
-                android:layout_weight="1"                android:layout_height="wrap_content"
-                android:src="@drawable/tshirt" />
-            <ImageView
-                android:layout_margin="10dp"
-                android:id="@+id/cloth3"
-                android:layout_width="0dp"
-                android:layout_weight="1"                android:layout_height="wrap_content"
-                android:src="@drawable/longpants" />
-            <ImageView
-                android:layout_margin="10dp"
-                android:id="@+id/cloth4"
-                android:layout_width="0dp"
-                android:layout_weight="1"                android:layout_height="wrap_content"
-                android:src="@drawable/shortpants" />
-            <ImageView
-                android:layout_margin="10dp"
-                android:id="@+id/cloth5"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:src="@drawable/whitesneaker" />
-        </LinearLayout>
+            android:layout_height="wrap_content"
+            android:fillViewport="true"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingVertical="30dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/cloth1"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/cloth_border_line"
+                    android:src="@drawable/hood"
+                    app:civ_border_color="@color/cloth_background"
+                    app:civ_border_overlay="true"
+                    app:civ_border_width="0dp" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/cloth2"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/cloth_border_line"
+                    android:src="@drawable/tshirt"
+                    app:civ_border_color="@color/cloth_background"
+                    app:civ_border_overlay="true"
+                    app:civ_border_width="0dp" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/cloth3"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/cloth_border_line"
+                    android:src="@drawable/longpants"
+                    app:civ_border_color="@color/cloth_background"
+                    app:civ_border_overlay="true"
+                    app:civ_border_width="0dp" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/cloth4"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/cloth_border_line"
+                    android:src="@drawable/shortpants"
+                    app:civ_border_color="@color/cloth_background"
+                    app:civ_border_overlay="false"
+                    app:civ_border_width="0dp" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/cloth5"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/cloth_border_line"
+                    android:src="@drawable/white_shoes"
+                    app:civ_border_color="@color/cloth_background"
+                    app:civ_border_overlay="false"
+                    app:civ_border_width="0dp" />
+            </LinearLayout>
+        </HorizontalScrollView>
     </LinearLayout>
+
 </LinearLayout>
