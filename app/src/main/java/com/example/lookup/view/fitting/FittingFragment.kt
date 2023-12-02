@@ -2,6 +2,7 @@ package com.example.lookup.view.fitting
 
 import android.content.ContentResolver
 import android.content.ContextWrapper
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -14,6 +15,7 @@ import android.widget.ArrayAdapter
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.core.content.ContentResolverCompat
+import androidx.core.content.ContextCompat.getColor
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import com.example.lookup.R
@@ -84,20 +86,65 @@ class FittingFragment : Fragment() {
         binding.apply{
             //TODO 옷 클릭시 기능 구현
             cloth1.setOnClickListener {
+                changeClothBorderLine("cloth1")
                 setFittingModel("hood")
             }
             cloth2.setOnClickListener {
+                changeClothBorderLine("cloth2")
                 setFittingModel(TSHIRT)
             }
             cloth3.setOnClickListener {
+                changeClothBorderLine("cloth3")
                 setFittingModel("longpants")
             }
             cloth4.setOnClickListener {
+                changeClothBorderLine("cloth4")
                 setFittingModel("shortpants")
             }
             cloth5.setOnClickListener {
+                changeClothBorderLine("cloth5")
                 setFittingModel(SHOES)
             }
+        }
+    }
+
+    private fun changeClothBorderLine(selected:String) {
+        val borderWidth = 8
+
+        binding.cloth1.borderColor = getColor(requireContext(),R.color.cloth_background)
+        binding.cloth1.borderWidth = 0
+        binding.cloth2.borderColor = getColor(requireContext(),R.color.cloth_background)
+        binding.cloth2.borderWidth = 0
+        binding.cloth3.borderColor = getColor(requireContext(),R.color.cloth_background)
+        binding.cloth3.borderWidth = 0
+        binding.cloth4.borderColor = getColor(requireContext(),R.color.cloth_background)
+        binding.cloth4.borderWidth = 0
+        binding.cloth5.borderColor = getColor(requireContext(),R.color.cloth_background)
+        binding.cloth5.borderWidth = 0
+        if(selected == "cloth1"){
+            binding.cloth1.borderColor = getColor(requireContext(),R.color.cloth_border)
+            binding.cloth1.borderWidth = borderWidth
+            return
+        }
+        if(selected == "cloth2"){
+            binding.cloth2.borderColor = getColor(requireContext(),R.color.cloth_border)
+            binding.cloth2.borderWidth = borderWidth
+            return
+        }
+        if(selected == "cloth3"){
+            binding.cloth3.borderColor = getColor(requireContext(),R.color.cloth_border)
+            binding.cloth3.borderWidth = borderWidth
+            return
+        }
+        if(selected == "cloth4"){
+            binding.cloth4.borderColor = getColor(requireContext(),R.color.cloth_border)
+            binding.cloth4.borderWidth = borderWidth
+            return
+        }
+        if(selected == "cloth5"){
+            binding.cloth5.borderColor = getColor(requireContext(),R.color.cloth_border)
+            binding.cloth5.borderWidth = borderWidth
+            return
         }
     }
 

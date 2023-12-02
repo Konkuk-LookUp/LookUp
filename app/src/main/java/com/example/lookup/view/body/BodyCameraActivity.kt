@@ -159,8 +159,7 @@ class BodyCameraActivity : AppCompatActivity() {
                         return
                     }
 
-                    val msg = "사진이 성공적으로 저장되었습니다."
-                    Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
+                    val msg = "사진 저장 성공"
                     Log.d(TAG, msg)
                     createPoseEstimator()
                     imageSource?.processImageFromGallery(savedUri)

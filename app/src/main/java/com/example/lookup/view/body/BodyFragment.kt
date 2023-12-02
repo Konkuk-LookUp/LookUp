@@ -233,7 +233,6 @@ class BodyFragment : Fragment() {
 
     private fun setCurrentModel(model: Model) {
         createNewModelView(model)
-        Toast.makeText(contextWrapper.applicationContext, R.string.open_model_success, Toast.LENGTH_SHORT).show()
         activity?.title = model.title
         binding.progressBar.visibility = View.GONE
     }
