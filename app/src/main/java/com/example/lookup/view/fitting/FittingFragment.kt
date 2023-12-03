@@ -163,11 +163,12 @@ class FittingFragment : Fragment() {
             renderFittingModel()
             return
         }
-        Toast.makeText(requireContext(), "존재하지 않는 옷입니다.", Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), "맞는 사이즈가 없습니다.", Toast.LENGTH_SHORT).show()
     }
 
     override fun onStart() {
         super.onStart()
+        changeClothBorderLine("")
         renderModel()
         if(ModelViewerApplication.currentModel == null){
             binding.notFoundModelView.visibility = View.VISIBLE
